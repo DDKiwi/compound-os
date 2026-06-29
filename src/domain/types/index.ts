@@ -39,6 +39,7 @@ export type {
   SuggestedAction,
 } from './InvestmentPolicy'
 export type { InvestmentContext } from './InvestmentContext'
+export type { AllocationWeight, PortfolioAllocation } from './PortfolioAllocation'
 export type { PortfolioMetrics } from './PortfolioMetrics'
 export type { PortfolioSnapshot } from './PortfolioSnapshot'
 export type { InvestmentRule, RuleCategory, RuleResult, RuleSeverity, RuleStatus } from './Rule'

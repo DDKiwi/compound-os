@@ -33,6 +33,13 @@ const context: InvestmentContext = {
     cashValue: 10_000,
     cashWeight: 0.1,
   },
+  allocation: {
+    holdings: [],
+    sectors: [],
+    countries: [],
+    currencies: [],
+    assetClasses: [],
+  },
   metrics: {
     cashWeight: 0.1,
   },
