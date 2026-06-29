@@ -1,4 +1,7 @@
 export { CashReserveRule } from './CashReserveRule'
+export { CashDragRule } from './CashDragRule'
+export { ConcentrationRiskRule } from './ConcentrationRiskRule'
 export { CountryAllocationRule } from './CountryAllocationRule'
+export { DiversificationRule } from './DiversificationRule'
 export { MaxHoldingRule } from './MaxHoldingRule'
 export { SectorAllocationRule } from './SectorAllocationRule'
