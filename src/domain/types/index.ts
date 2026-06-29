@@ -45,4 +45,5 @@ export type { AllocationWeight, PortfolioAllocation } from './PortfolioAllocatio
 export type { PortfolioMetrics } from './PortfolioMetrics'
 export type { PortfolioSnapshot } from './PortfolioSnapshot'
 export type { InvestmentRule, RuleCategory, RuleResult, RuleSeverity, RuleStatus } from './Rule'
+export type { RuleSummary } from './RuleSummary'
 export type { JournalEntry } from './JournalEntry'
