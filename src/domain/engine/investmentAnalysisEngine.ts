@@ -1,11 +1,14 @@
 import type {
   DividendForecast,
   InvestmentAnalysisReport,
+  InvestmentAnalysisSession,
   InvestmentContext,
   InvestmentPolicy,
   InvestmentRule,
+  Portfolio,
 } from '../types'
 import { buildInvestmentAnalysisReport } from '../builders/InvestmentAnalysisReportBuilder'
+import { buildInvestmentAnalysisSession } from '../builders/InvestmentAnalysisSessionBuilder'
 import { buildInsights } from '../builders/insightBuilder'
 import { buildPortfolioAllocation, type PortfolioAllocationInput } from '../builders/portfolioAllocationBuilder'
 import { buildPortfolioMetrics } from '../builders/portfolioMetricsBuilder'
@@ -15,6 +18,7 @@ import { buildRuleSummary } from '../builders/ruleSummaryBuilder'
 import { evaluateRules } from './ruleEngine'
 
 export type InvestmentAnalysisInput = {
+  readonly portfolio: Portfolio
   readonly policy: InvestmentPolicy
   readonly snapshotInput: PortfolioSnapshotInput
   readonly allocationInput: PortfolioAllocationInput
@@ -54,5 +58,14 @@ export function analyzeInvestment(input: InvestmentAnalysisInput): InvestmentAna
 export const InvestmentAnalysisEngine = {
   analyze(input: InvestmentAnalysisInput): InvestmentAnalysisReport {
     return analyzeInvestment(input)
+  },
+  createSession(input: InvestmentAnalysisInput): InvestmentAnalysisSession {
+    const report = analyzeInvestment(input)
+
+    return buildInvestmentAnalysisSession({
+      portfolio: input.portfolio,
+      policy: input.policy,
+      report,
+    })
   },
 } as const

@@ -46,6 +46,8 @@ Each step should remain deterministic and testable. The same input should always
 
 `InvestmentAnalysisReport` is the primary public contract exposed by the Domain layer. React UI, dashboards, reports, CLIs, Azure Functions, MCP servers and assistants should consume this report instead of depending on the internal pipeline shape.
 
+When callers need metadata around a single run, `InvestmentAnalysisEngine.createSession` returns an `InvestmentAnalysisSession` containing the portfolio, policy and generated report. It does not persist the session.
+
 ---
 
 ## Responsibilities
@@ -132,6 +134,8 @@ It connects the analyzed portfolio, investment policy and resulting `InvestmentA
 `InvestmentAnalysisEngine` coordinates the full domain pipeline.
 
 Its `analyze` method calls builders for the snapshot, allocation, metrics, rule summary, recommendations and insights, creates the internal `InvestmentContext`, evaluates rules and returns a complete `InvestmentAnalysisReport` for the application layer to consume.
+
+Its `createSession` method runs the same analysis and wraps the portfolio, policy and report in an `InvestmentAnalysisSession` through `InvestmentAnalysisSessionBuilder`.
 
 This engine is the main entry point for investment analysis.
 

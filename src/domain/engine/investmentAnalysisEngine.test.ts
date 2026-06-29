@@ -5,6 +5,7 @@ import type {
   InvestmentContext,
   InvestmentPolicy,
   InvestmentRule,
+  Portfolio,
   Recommendation,
   RuleResult,
 } from '../types'
@@ -62,6 +63,14 @@ const dividendForecast: DividendForecast = {
   ],
 }
 
+const portfolio: Portfolio = {
+  id: 'portfolio-1',
+  holdings: [],
+  watchlist: [],
+  journalEntries: [],
+  dividendProjection: [],
+}
+
 function createRuleResult(ruleId: string, status: RuleResult['status'] = 'pass'): RuleResult {
   return {
     ruleId,
@@ -101,6 +110,7 @@ function createRule(
 
 function createInput(rules: readonly InvestmentRule[] = []): InvestmentAnalysisInput {
   return {
+    portfolio,
     policy,
     generatedAt,
     snapshotInput: {
@@ -263,6 +273,18 @@ describe('analyzeInvestment', () => {
     expect(analyzeInvestment(createInput())).toEqual(InvestmentAnalysisEngine.analyze(createInput()))
   })
 
+  it('creates an investment analysis session from the same input', () => {
+    const input = createInput()
+    const session = InvestmentAnalysisEngine.createSession(input)
+
+    expect(session.portfolio).toBe(input.portfolio)
+    expect(session.policy).toBe(input.policy)
+    expect(session.report).toEqual(InvestmentAnalysisEngine.analyze(input))
+    expect(session.id).toEqual(expect.any(String))
+    expect(session.createdAt).toBeInstanceOf(Date)
+    expect(session.version).toEqual(expect.any(String))
+  })
+
   it('populates generatedAt when not supplied', () => {
     const { generatedAt: _generatedAt, ...inputWithoutGeneratedAt } = createInput()
     const report = analyzeInvestment(inputWithoutGeneratedAt)
@@ -376,6 +398,13 @@ describe('analyzeInvestment', () => {
         dividendPolicy: { ...input.policy.dividendPolicy },
         rebalancingRule: { ...input.policy.rebalancingRule },
       },
+      portfolio: {
+        ...input.portfolio,
+        holdings: [...input.portfolio.holdings],
+        watchlist: [...input.portfolio.watchlist],
+        journalEntries: [...input.portfolio.journalEntries],
+        dividendProjection: [...input.portfolio.dividendProjection],
+      },
       snapshotInput: { ...input.snapshotInput },
       allocationInput: {
         holdings: input.allocationInput.holdings?.map((weight) => ({ ...weight })),
@@ -391,6 +420,7 @@ describe('analyzeInvestment', () => {
     analyzeInvestment(input)
 
     expect(input.policy).toEqual(originalInput.policy)
+    expect(input.portfolio).toEqual(originalInput.portfolio)
     expect(input.snapshotInput).toEqual(originalInput.snapshotInput)
     expect(input.allocationInput).toEqual(originalInput.allocationInput)
     expect(input.dividendForecast).toEqual(originalInput.dividendForecast)
