@@ -23,7 +23,7 @@ Any dependency should point into the domain layer, not from the domain layer int
 
 ## Pipeline
 
-The investment analysis pipeline is coordinated by `analyzeInvestment`.
+The investment analysis pipeline is coordinated by `InvestmentAnalysisEngine.analyze`.
 
 ```ts
 Portfolio
@@ -125,7 +125,7 @@ It contains the generated timestamp, portfolio snapshot, allocation, metrics, op
 
 `InvestmentAnalysisEngine` coordinates the full domain pipeline.
 
-It calls builders for the snapshot, allocation, metrics, rule summary, recommendations and insights, creates the internal `InvestmentContext`, evaluates rules and returns a complete `InvestmentAnalysisReport` for the application layer to consume.
+Its `analyze` method calls builders for the snapshot, allocation, metrics, rule summary, recommendations and insights, creates the internal `InvestmentContext`, evaluates rules and returns a complete `InvestmentAnalysisReport` for the application layer to consume.
 
 This engine is the main entry point for investment analysis.
 

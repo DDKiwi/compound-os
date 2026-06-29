@@ -87,9 +87,15 @@ export function analyzeInvestment(input: InvestmentAnalysisInput): InvestmentAna
     allocation,
     metrics,
     dividendForecast: cloneDividendForecast(input.dividendForecast),
-    ruleResults: reportRuleResults,
     summary,
+    ruleResults: reportRuleResults,
     recommendations: reportRecommendations,
     insights,
   })
 }
+
+export const InvestmentAnalysisEngine = {
+  analyze(input: InvestmentAnalysisInput): InvestmentAnalysisReport {
+    return analyzeInvestment(input)
+  },
+} as const

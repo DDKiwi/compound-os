@@ -1,7 +1,15 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { DividendForecast, InvestmentContext, InvestmentPolicy, InvestmentRule, Recommendation, RuleResult } from '../types'
+import type {
+  DividendForecast,
+  InvestmentAnalysisReport,
+  InvestmentContext,
+  InvestmentPolicy,
+  InvestmentRule,
+  Recommendation,
+  RuleResult,
+} from '../types'
 import type { InvestmentAnalysisInput } from './investmentAnalysisEngine'
-import { analyzeInvestment } from './investmentAnalysisEngine'
+import { analyzeInvestment, InvestmentAnalysisEngine } from './investmentAnalysisEngine'
 
 const generatedAt = new Date('2026-06-29T12:00:00.000Z')
 
@@ -147,8 +155,20 @@ function createInput(rules: readonly InvestmentRule[] = []): InvestmentAnalysisI
 }
 
 describe('analyzeInvestment', () => {
-  it('returns an investment analysis report', () => {
-    const report = analyzeInvestment(createInput())
+  it('returns an explicit investment analysis report', () => {
+    const report: InvestmentAnalysisReport = InvestmentAnalysisEngine.analyze(createInput())
+
+    expect(Object.keys(report)).toEqual([
+      'generatedAt',
+      'snapshot',
+      'allocation',
+      'metrics',
+      'dividendForecast',
+      'summary',
+      'ruleResults',
+      'recommendations',
+      'insights',
+    ])
 
     expect(report).toEqual({
       generatedAt,
@@ -237,6 +257,10 @@ describe('analyzeInvestment', () => {
         },
       ],
     })
+  })
+
+  it('keeps analyzeInvestment as the same report output', () => {
+    expect(analyzeInvestment(createInput())).toEqual(InvestmentAnalysisEngine.analyze(createInput()))
   })
 
   it('populates generatedAt when not supplied', () => {
