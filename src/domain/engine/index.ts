@@ -26,18 +26,22 @@ export {
 export { getAllocation, getGlobalIndexWeightPct } from './allocationEngine'
 export {
   createDividendForecast,
+  getDividendCalendarForHolding,
   getDividendHoldings,
+  getDividendPerPayment,
   getDividendProgress,
   getExpectedMonthlyDividend,
   getExpectedYearlyDividend,
+  getPortfolioDividendCalendar,
   getPortfolioExpectedMonthlyDividend,
   getPortfolioExpectedYearlyDividend,
   getProgressToMonthlyDividendGoal,
   getRequiredCapitalForMonthlyDividendGoal,
 } from './dividendEngine'
-export type { DividendForecastParams, DividendForecastYear } from './dividendEngine'
+export type { DividendCalendarHolding, DividendCalendarMonth, DividendForecastParams, DividendForecastYear } from './dividendEngine'
 export {
   evaluateHighRiskRule,
+  evaluateInvestmentPhilosophy,
   evaluateInvestmentRules,
   evaluatePortfolioRules,
   getCashBufferProgress,

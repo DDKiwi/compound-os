@@ -4,9 +4,9 @@ import { SectionCard as Card } from '../components/ui/Card'
 import { ChartTooltip } from '../components/charts/ChartTooltip'
 import { MetricCard } from '../components/ui/MetricCard'
 import { ProgressRow } from '../components/ui/ProgressRow'
-import { getDividendHoldings, getExpectedMonthlyDividend } from '../domain'
+import { getDividendHoldings, getExpectedMonthlyDividend, getPortfolioDividendCalendar } from '../domain'
 import { calculatePortfolioStats } from '../lib/calculations'
-import { formatCurrency } from '../lib/helpers'
+import { classificationLabel, formatCurrency } from '../lib/helpers'
 import type { DividendPoint, Holding } from '../types/investment'
 
 export function DividendGoalPage({
@@ -19,6 +19,9 @@ export function DividendGoalPage({
   const stats = calculatePortfolioStats(holdings)
   const remaining = 10000 - stats.monthlyDividend
   const dividendHoldings = getDividendHoldings(holdings)
+  const dividendCalendar = getPortfolioDividendCalendar(holdings)
+  const bestDividendMonth = [...dividendCalendar].sort((a, b) => b.expectedDividend - a.expectedDividend)[0]
+  const weakestDividendMonth = [...dividendCalendar].sort((a, b) => a.expectedDividend - b.expectedDividend)[0]
 
   return (
     <div className="space-y-5">
@@ -27,6 +30,65 @@ export function DividendGoalPage({
         <MetricCard icon={CircleDollarSign} label="Nuvarande" value={formatCurrency(stats.monthlyDividend)} helper={`${stats.dividendProgress}% klart`} />
         <MetricCard icon={WalletCards} label="Kvar" value={formatCurrency(remaining)} helper="Innan målet är nått" />
       </section>
+
+      <section className="grid gap-5 xl:grid-cols-[1.15fr_0.85fr]">
+        <Card title="Utdelningskalender" action="12 månader">
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={dividendCalendar} margin={{ left: -24, right: 8, top: 16, bottom: 0 }}>
+                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+                <XAxis dataKey="monthName" tickLine={false} axisLine={false} tick={{ fill: '#a1a1aa', fontSize: 12 }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fill: '#71717a', fontSize: 12 }} />
+                <Tooltip content={<ChartTooltip />} />
+                <Bar dataKey="expectedDividend" name="Utdelning" radius={[6, 6, 0, 0]} fill="#22c55e" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        <Card title="Kalenderbalans" action="SEK">
+          <div className="grid gap-3">
+            <div className="rounded-lg border border-white/10 bg-card p-4">
+              <p className="text-xs text-zinc-500">Starkaste månad</p>
+              <p className="mt-1 text-lg font-semibold text-zinc-100">{bestDividendMonth.monthName}</p>
+              <p className="mt-1 text-sm text-zinc-500">{formatCurrency(bestDividendMonth.expectedDividend)}</p>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-card p-4">
+              <p className="text-xs text-zinc-500">Svagaste månad</p>
+              <p className="mt-1 text-lg font-semibold text-zinc-100">{weakestDividendMonth.monthName}</p>
+              <p className="mt-1 text-sm text-zinc-500">{formatCurrency(weakestDividendMonth.expectedDividend)}</p>
+            </div>
+          </div>
+        </Card>
+      </section>
+
+      <Card title="Månadsvisa betalningar" action="Innehav">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {dividendCalendar.map((month) => (
+            <div key={month.month} className="rounded-lg border border-white/10 bg-card p-4">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="text-sm font-medium text-zinc-100">{month.monthName}</p>
+                <p className="text-sm text-zinc-400">{formatCurrency(month.expectedDividend)}</p>
+              </div>
+              {month.holdings.length === 0 ? (
+                <p className="text-sm text-zinc-600">Inga förväntade betalningar.</p>
+              ) : (
+                <div className="space-y-2">
+                  {month.holdings.map((holding) => (
+                    <div key={`${month.month}-${holding.ticker}`} className="flex items-start justify-between gap-3 text-sm">
+                      <div className="min-w-0">
+                        <p className="truncate text-zinc-200">{holding.name}</p>
+                        <p className="text-xs text-zinc-500">{holding.ticker} | {holding.accountType} | {classificationLabel(holding.classification)}</p>
+                      </div>
+                      <p className="shrink-0 text-zinc-400">{formatCurrency(holding.expectedDividend)}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </Card>
 
       <section className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
         <Card title="Prognos" action="Månadsvis">

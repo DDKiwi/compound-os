@@ -1,6 +1,8 @@
 import type { Goal, Holding, InvestmentRule, RuleResult } from '../types'
+import type { InvestmentPhilosophy } from '../philosophy'
 import { investmentGoal, investmentRules } from '../config/investmentRules'
 import { getActiveHoldings, getCashValue, getPortfolioWeight, getTotalInvestedCapital } from './portfolioEngine'
+import { evaluatePhilosophy } from '../philosophy'
 
 type ConcentrationRisk = {
   holding: Holding
@@ -151,4 +153,12 @@ export function evaluateHighRiskRule(holdings: Holding[]): RuleResult {
 
 export function evaluatePortfolioRules(holdings: Holding[]): RuleResult[] {
   return evaluateInvestmentRules(holdings, investmentGoal, Object.values(investmentRules))
+}
+
+export function evaluateInvestmentPhilosophy(
+  philosophy: InvestmentPhilosophy,
+  holdings: Holding[],
+  goals: Goal,
+) {
+  return evaluatePhilosophy(philosophy, holdings, goals)
 }

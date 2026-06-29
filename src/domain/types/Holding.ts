@@ -19,6 +19,8 @@ export type Currency = 'SEK' | 'USD' | 'CAD' | 'EUR' | 'GBP'
 
 export type MoatScore = 0 | 1 | 2 | 3 | 4 | 5
 
+export type DividendFrequency = 'monthly' | 'quarterly' | 'semiannual' | 'annual' | 'none'
+
 export type Holding = {
   id: string
   name: string
@@ -34,6 +36,8 @@ export type Holding = {
   currency: Currency
   expectedDividendYield: number
   expectedDividendGrowth: number
+  dividendMonths?: number[]
+  dividendFrequency?: DividendFrequency
   isWatchlist: boolean
   isSpeculative: boolean
   notes: string

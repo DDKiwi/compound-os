@@ -3,6 +3,7 @@ export type {
   AssetType,
   CountryExposure,
   Currency,
+  DividendFrequency,
   Holding,
   HoldingClassification,
   MoatScore,

@@ -1,12 +1,12 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
-import { Banknote, ChevronRight, Gauge, Target, WalletCards } from 'lucide-react'
+import { AlertTriangle, Banknote, CheckCircle2, ChevronRight, Gauge, ShieldCheck, Target, WalletCards } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { SectionCard as Card } from '../components/ui/Card'
 import { ChartTooltip } from '../components/charts/ChartTooltip'
 import { MetricCard } from '../components/ui/MetricCard'
 import { ProgressRow } from '../components/ui/ProgressRow'
 import { navItems } from '../app/routes'
-import { createDashboardSummary, mockGoals, mockPortfolioHoldings, mockRules } from '../domain'
+import { createDashboardSummary, mockGoals, mockPhilosophy, mockPortfolioHoldings, mockRules } from '../domain'
 import { formatCurrencySEK, formatPercent } from '../lib/formatters'
 import { accountTypeLabel, chartColors, classificationLabel } from '../lib/helpers'
 import type { AccountType, HoldingClassification } from '../domain'
@@ -18,15 +18,54 @@ export function DashboardPage({
   data: MockData
   navigate: (page: PageId) => void
 }) {
-  const summary = createDashboardSummary(mockPortfolioHoldings, mockGoals, mockRules)
+  const summary = createDashboardSummary(mockPortfolioHoldings, mockGoals, mockRules, mockPhilosophy)
+  const strategyTone = summary.philosophyScore >= 80 ? 'good' : summary.philosophyScore >= 60 ? 'neutral' : 'bad'
 
   return (
     <div className="space-y-5">
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <MetricCard icon={WalletCards} label="Marknadsvärde" value={formatCurrencySEK(summary.totalMarketValue)} helper="Aktiva innehav och mockdata" />
         <MetricCard icon={Target} label="Utdelning/mån" value={formatCurrencySEK(summary.expectedMonthlyDividend)} helper={`${formatPercent(summary.dividendGoalProgress * 100)}% av 10 000 kr/mån`} />
         <MetricCard icon={Banknote} label="Kassabuffert" value={`${formatPercent(summary.cashBufferProgress * 100)}%`} helper={`${formatCurrencySEK(summary.cashValue)} av mål`} />
         <MetricCard icon={Gauge} label="Spekulativt" value={`${formatPercent(summary.speculativeExposurePercent * 100)}%`} helper="Max 2 % av investerat kapital" tone={summary.speculativeExposurePercent <= 0.02 ? 'good' : 'bad'} />
+        <MetricCard icon={ShieldCheck} label="StrategipoÃ¤ng" value={`${summary.philosophyScore}/100`} helper={`${summary.philosophyRuleEvaluations.length} filosofiregler`} tone={strategyTone} />
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-[1fr_1fr]">
+        <Card title="Strategivarningar" action="Topp 3">
+          <div className="space-y-3">
+            {summary.topPhilosophyWarnings.length === 0 ? (
+              <div className="flex items-start gap-3 rounded-lg border border-success/20 bg-success/10 p-4 text-sm text-success">
+                <CheckCircle2 className="mt-0.5 shrink-0" size={16} />
+                <span>Inga aktiva strategivarningar.</span>
+              </div>
+            ) : (
+              summary.topPhilosophyWarnings.map((rule) => (
+                <div key={rule.ruleId} className="flex items-start gap-3 rounded-lg border border-white/10 bg-card p-4">
+                  <AlertTriangle className={rule.status === 'fail' ? 'mt-0.5 shrink-0 text-destructive' : 'mt-0.5 shrink-0 text-warning'} size={16} />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-zinc-100">{rule.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-zinc-500">{rule.message}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </Card>
+
+        <Card title="Uppfyllda strategiregler" action="Topp 3">
+          <div className="space-y-3">
+            {summary.topPhilosophyPassedRules.map((rule) => (
+              <div key={rule.id} className="flex items-start gap-3 rounded-lg border border-white/10 bg-card p-4">
+                <CheckCircle2 className="mt-0.5 shrink-0 text-success" size={16} />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-zinc-100">{rule.title}</p>
+                  <p className="mt-1 text-sm leading-6 text-zinc-500">{rule.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
       </section>
 
       <section className="grid gap-5 xl:grid-cols-[1fr_1fr]">
