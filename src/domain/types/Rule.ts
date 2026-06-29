@@ -1,4 +1,5 @@
 import type { InvestmentContext } from './InvestmentContext'
+import type { Recommendation } from './Recommendation'
 
 export type RuleSeverity = 'info' | 'warning' | 'critical'
 
@@ -23,7 +24,7 @@ export type RuleResult = {
   readonly details?: readonly string[]
 }
 
-export interface  InvestmentRule {
+export interface InvestmentRule {
   readonly id: string
   readonly title: string
   readonly description: string
@@ -31,4 +32,5 @@ export interface  InvestmentRule {
   readonly category: RuleCategory
 
   evaluate(context: InvestmentContext): RuleResult
+  buildRecommendation?(result: RuleResult): Recommendation | null
 }

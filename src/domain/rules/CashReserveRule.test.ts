@@ -170,4 +170,48 @@ describe('CashReserveRule', () => {
     expect(result.details).toEqual(['Cash weight: 0.1.', 'Target cash weight: 0.1.'])
     expect(result).not.toHaveProperty('recommendation')
   })
+
+  it('does not recommend an action when the cash reserve rule passes', () => {
+    const result = CashReserveRule.evaluate(
+      createContext({
+        cashReserve: 0.1,
+      }),
+    )
+
+    expect(CashReserveRule.buildRecommendation?.(result)).toBeNull()
+  })
+
+  it('recommends defining a cash reserve when the policy is missing one', () => {
+    const result = CashReserveRule.evaluate(createContext())
+
+    expect(CashReserveRule.buildRecommendation?.(result)).toEqual({
+      id: 'cash-reserve-define-policy',
+      ruleId: 'cash-reserve',
+      title: 'Define a cash reserve target',
+      message: 'The investment policy does not define a cash reserve.',
+      severity: 'warning',
+      confidence: 'high',
+      expectedImpact: 'Makes cash reserve decisions measurable against the investment policy.',
+      details: ['Add a cash reserve target before evaluating cash reserve coverage.'],
+    })
+  })
+
+  it('recommends restoring the cash reserve when it is below target', () => {
+    const result = CashReserveRule.evaluate(
+      createContext({
+        cashReserve: 0.2,
+      }),
+    )
+
+    expect(CashReserveRule.buildRecommendation?.(result)).toEqual({
+      id: 'cash-reserve-restore-reserve',
+      ruleId: 'cash-reserve',
+      title: 'Restore the portfolio cash reserve',
+      message: 'The portfolio cash reserve is below the investment policy target.',
+      severity: 'warning',
+      confidence: 'high',
+      expectedImpact: 'Improves liquidity and keeps the portfolio aligned with the cash policy.',
+      details: ['Cash weight: 0.1.', 'Target cash weight: 0.2.'],
+    })
+  })
 })

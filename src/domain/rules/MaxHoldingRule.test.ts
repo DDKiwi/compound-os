@@ -204,4 +204,63 @@ describe('MaxHoldingRule', () => {
       'Durable Inc: 0.35 exceeds 0.25.',
     ])
   })
+
+  it('does not recommend an action when all holdings are within the maximum holding weight', () => {
+    const result = MaxHoldingRule.evaluate(
+      createContext({
+        policy: {
+          maxHoldingWeight: 0.25,
+        },
+        holdings: [
+          createHolding({
+            weight: 0.2,
+          }),
+        ],
+      }),
+    )
+
+    expect(MaxHoldingRule.buildRecommendation?.(result)).toBeNull()
+  })
+
+  it('recommends defining a maximum holding weight when the policy is missing one', () => {
+    const result = MaxHoldingRule.evaluate(createContext())
+
+    expect(MaxHoldingRule.buildRecommendation?.(result)).toEqual({
+      id: 'max-holding-define-policy',
+      ruleId: 'max-holding',
+      title: 'Define a maximum holding weight',
+      message: 'The investment policy does not define a maximum holding weight.',
+      severity: 'warning',
+      confidence: 'high',
+      expectedImpact: 'Makes concentration risk measurable against the investment policy.',
+      details: ['Add a maximum holding weight before evaluating holding concentration.'],
+    })
+  })
+
+  it('recommends reducing oversized holdings when the maximum holding weight fails', () => {
+    const result = MaxHoldingRule.evaluate(
+      createContext({
+        policy: {
+          maxHoldingWeight: 0.25,
+        },
+        holdings: [
+          createHolding({
+            name: 'Compounder AB',
+            weight: 0.3,
+          }),
+        ],
+      }),
+    )
+
+    expect(MaxHoldingRule.buildRecommendation?.(result)).toEqual({
+      id: 'max-holding-reduce-concentration',
+      ruleId: 'max-holding',
+      title: 'Reduce oversized holdings',
+      message: 'One or more holdings exceed the maximum holding weight.',
+      severity: 'critical',
+      confidence: 'high',
+      expectedImpact: 'Reduces single-position concentration and restores policy alignment.',
+      details: ['Compounder AB: 0.3 exceeds 0.25.'],
+    })
+  })
 })

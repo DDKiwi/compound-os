@@ -42,4 +42,34 @@ export const CashReserveRule: InvestmentRule = {
       ],
     }
   },
+
+  buildRecommendation(result: RuleResult) {
+    if (result.status === 'pass') {
+      return null
+    }
+
+    if (result.status === 'warning') {
+      return {
+        id: `${this.id}-define-policy`,
+        ruleId: this.id,
+        title: 'Define a cash reserve target',
+        message: result.message,
+        severity: 'warning',
+        confidence: 'high',
+        expectedImpact: 'Makes cash reserve decisions measurable against the investment policy.',
+        details: result.details,
+      }
+    }
+
+    return {
+      id: `${this.id}-restore-reserve`,
+      ruleId: this.id,
+      title: 'Restore the portfolio cash reserve',
+      message: result.message,
+      severity: 'warning',
+      confidence: 'high',
+      expectedImpact: 'Improves liquidity and keeps the portfolio aligned with the cash policy.',
+      details: result.details,
+    }
+  },
 }

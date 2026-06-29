@@ -47,4 +47,34 @@ export const MaxHoldingRule: InvestmentRule = {
       ),
     }
   },
+
+  buildRecommendation(result: RuleResult) {
+    if (result.status === 'pass') {
+      return null
+    }
+
+    if (result.status === 'warning') {
+      return {
+        id: `${this.id}-define-policy`,
+        ruleId: this.id,
+        title: 'Define a maximum holding weight',
+        message: result.message,
+        severity: 'warning',
+        confidence: 'high',
+        expectedImpact: 'Makes concentration risk measurable against the investment policy.',
+        details: result.details,
+      }
+    }
+
+    return {
+      id: `${this.id}-reduce-concentration`,
+      ruleId: this.id,
+      title: 'Reduce oversized holdings',
+      message: result.message,
+      severity: 'critical',
+      confidence: 'high',
+      expectedImpact: 'Reduces single-position concentration and restores policy alignment.',
+      details: result.details,
+    }
+  },
 }
