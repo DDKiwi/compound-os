@@ -125,7 +125,7 @@ It contains the generated timestamp, portfolio snapshot, allocation, metrics, op
 
 `InvestmentAnalysisSession` represents a single savable analysis run.
 
-It connects the analyzed portfolio, investment policy and resulting `InvestmentAnalysisReport` with session metadata such as id, creation time and version. Session creation, persistence and UI behavior belong outside this type.
+It connects the analyzed portfolio, investment policy and resulting `InvestmentAnalysisReport` with session metadata such as id, creation time and version. Session objects are created by `InvestmentAnalysisSessionBuilder`; persistence and UI behavior belong outside this type.
 
 ### InvestmentAnalysisEngine
 
