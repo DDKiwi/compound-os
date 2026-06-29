@@ -39,6 +39,9 @@ function createContext(policy: Partial<InvestmentPolicy> = {}): InvestmentContex
       cashValue: 10_000,
       cashWeight: 0.1,
     },
+    metrics: {
+      cashWeight: 0.1,
+    },
   }
 }
 
@@ -95,6 +98,31 @@ describe('CashReserveRule', () => {
       status: 'fail',
       message: 'The portfolio cash reserve is below the investment policy target.',
       details: ['Cash weight: 0.1.', 'Target cash weight: 0.2.'],
+    })
+  })
+
+  it('uses portfolio metrics when evaluating cash weight', () => {
+    const context = createContext({
+      cashReserve: 0.2,
+    })
+    const result = CashReserveRule.evaluate({
+      ...context,
+      snapshot: {
+        totalValue: 100_000,
+        cashValue: 10_000,
+        cashWeight: 0.1,
+      },
+      metrics: {
+        cashWeight: 0.25,
+      },
+    })
+
+    expect(result).toEqual({
+      ruleId: 'cash-reserve',
+      title: 'Cash reserve',
+      status: 'pass',
+      message: 'The portfolio cash reserve meets the investment policy.',
+      details: ['Cash weight: 0.25.', 'Target cash weight: 0.2.'],
     })
   })
 

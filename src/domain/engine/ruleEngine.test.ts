@@ -33,6 +33,9 @@ const context: InvestmentContext = {
     cashValue: 10_000,
     cashWeight: 0.1,
   },
+  metrics: {
+    cashWeight: 0.1,
+  },
 }
 
 function createRuleResult(ruleId: string, status: RuleResult['status'] = 'pass'): RuleResult {

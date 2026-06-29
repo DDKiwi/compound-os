@@ -18,14 +18,14 @@ export const CashReserveRule: InvestmentRule = {
       }
     }
 
-    if (context.snapshot.cashWeight >= context.policy.cashReserve) {
+    if (context.metrics.cashWeight >= context.policy.cashReserve) {
       return {
         ruleId: this.id,
         title: this.title,
         status: 'pass',
         message: 'The portfolio cash reserve meets the investment policy.',
         details: [
-          `Cash weight: ${context.snapshot.cashWeight}.`,
+          `Cash weight: ${context.metrics.cashWeight}.`,
           `Target cash weight: ${context.policy.cashReserve}.`,
         ],
       }
@@ -37,7 +37,7 @@ export const CashReserveRule: InvestmentRule = {
       status: 'fail',
       message: 'The portfolio cash reserve is below the investment policy target.',
       details: [
-        `Cash weight: ${context.snapshot.cashWeight}.`,
+        `Cash weight: ${context.metrics.cashWeight}.`,
         `Target cash weight: ${context.policy.cashReserve}.`,
       ],
     }
