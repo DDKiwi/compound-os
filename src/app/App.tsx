@@ -9,8 +9,8 @@ function App() {
 
   if (!query.data) {
     return (
-      <div className="min-h-screen bg-[#09090b] text-zinc-100">
-        <div className="flex min-h-screen items-center justify-center text-sm text-zinc-500">
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
           Laddar Compound OS...
         </div>
       </div>

@@ -7,10 +7,10 @@ export function WatchlistCard({ item }: { item: WatchItem }) {
     <Card title={item.name} action={item.ticker}>
       <div className="space-y-4">
         <Badge tone={item.priority === 'Hög' ? 'good' : 'neutral'}>{item.priority} prioritet</Badge>
-        <p className="text-sm leading-6 text-zinc-400">{item.note}</p>
-        <div className="rounded-lg border border-white/10 bg-black/20 p-3">
-          <p className="text-xs uppercase tracking-[0.14em] text-zinc-500">Köptrigger</p>
-          <p className="mt-1 text-sm text-zinc-200">{item.target}</p>
+        <p className="text-sm leading-6 text-muted-foreground">{item.note}</p>
+        <div className="rounded-lg border border-border-muted bg-surface p-3">
+          <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Köptrigger</p>
+          <p className="mt-1 text-sm text-foreground">{item.target}</p>
         </div>
       </div>
     </Card>

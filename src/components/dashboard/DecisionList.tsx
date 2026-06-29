@@ -8,9 +8,9 @@ export function DecisionList() {
   return (
     <div className="grid gap-3">
       {decisions.map(([title, text]) => (
-        <div key={title} className="rounded-lg border border-white/10 bg-card p-4">
+        <div key={title} className="rounded-lg border border-border-muted bg-surface p-4">
           <p className="text-sm font-medium">{title}</p>
-          <p className="mt-1 text-sm leading-6 text-zinc-400">{text}</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">{text}</p>
         </div>
       ))}
     </div>

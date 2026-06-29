@@ -15,15 +15,15 @@ export function MetricCard({
   tone?: 'neutral' | 'good' | 'bad'
 }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-card p-4 shadow-sm shadow-black/20">
+    <div className="rounded-lg border border-border bg-card p-4 shadow-[var(--shadow-subtle)]">
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-sm text-zinc-500">{label}</span>
+        <span className="text-sm text-muted-foreground">{label}</span>
         <span className={`rounded-md border p-1.5 ${toneClass(tone)}`}>
           <Icon size={16} />
         </span>
       </div>
-      <p className="text-2xl font-semibold tracking-normal text-zinc-50">{value}</p>
-      <p className="mt-2 text-sm text-zinc-500">{helper}</p>
+      <p className="text-2xl font-semibold tracking-normal text-foreground">{value}</p>
+      <p className="mt-2 text-sm text-muted-foreground">{helper}</p>
     </div>
   )
 }

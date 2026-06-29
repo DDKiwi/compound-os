@@ -41,11 +41,11 @@ export function DashboardPage({
               </div>
             ) : (
               summary.topPhilosophyWarnings.map((rule) => (
-                <div key={rule.ruleId} className="flex items-start gap-3 rounded-lg border border-white/10 bg-card p-4">
+                <div key={rule.ruleId} className="flex items-start gap-3 rounded-lg border border-border-muted bg-surface p-4">
                   <AlertTriangle className={rule.status === 'fail' ? 'mt-0.5 shrink-0 text-destructive' : 'mt-0.5 shrink-0 text-warning'} size={16} />
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-zinc-100">{rule.title}</p>
-                    <p className="mt-1 text-sm leading-6 text-zinc-500">{rule.message}</p>
+                    <p className="text-sm font-medium text-foreground">{rule.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{rule.message}</p>
                   </div>
                 </div>
               ))
@@ -56,11 +56,11 @@ export function DashboardPage({
         <Card title="Uppfyllda strategiregler" action="Topp 3">
           <div className="space-y-3">
             {summary.topPhilosophyPassedRules.map((rule) => (
-              <div key={rule.id} className="flex items-start gap-3 rounded-lg border border-white/10 bg-card p-4">
+              <div key={rule.id} className="flex items-start gap-3 rounded-lg border border-border-muted bg-surface p-4">
                 <CheckCircle2 className="mt-0.5 shrink-0 text-success" size={16} />
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-zinc-100">{rule.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-zinc-500">{rule.description}</p>
+                  <p className="text-sm font-medium text-foreground">{rule.title}</p>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground">{rule.description}</p>
                 </div>
               </div>
             ))}
@@ -84,7 +84,7 @@ export function DashboardPage({
           </div>
           <div className="grid gap-2 sm:grid-cols-2">
             {summary.allocationByAccountType.map((item, index) => (
-              <div key={item.name} className="flex items-center gap-2 text-xs text-zinc-400">
+              <div key={item.name} className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span className="h-2 w-2 rounded-full" style={{ background: chartColors[index % chartColors.length] }} />
                 <span className="truncate">{accountTypeLabel(item.name as AccountType)}</span>
                 <span className="ml-auto">{formatPercent(item.weight * 100)}%</span>
@@ -126,9 +126,9 @@ export function DashboardPage({
         <Card title="Regelstatus" action={`${summary.ruleResults.length} regler`}>
           <div className="space-y-3">
             {summary.ruleResults.map((rule) => (
-              <div key={rule.ruleId} className="rounded-lg border border-white/10 bg-card p-4">
+              <div key={rule.ruleId} className="rounded-lg border border-border-muted bg-surface p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-medium text-zinc-100">{rule.title}</p>
+                  <p className="text-sm font-medium text-foreground">{rule.title}</p>
                   <span className={`rounded-md border px-2 py-1 text-xs ${
                     rule.status === 'pass'
                       ? 'border-success/25 bg-success/10 text-success'
@@ -139,7 +139,7 @@ export function DashboardPage({
                     {rule.status}
                   </span>
                 </div>
-                <p className="mt-2 text-sm leading-6 text-zinc-400">{rule.message}</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{rule.message}</p>
               </div>
             ))}
           </div>
@@ -150,12 +150,12 @@ export function DashboardPage({
         <Card title="Bevakningslista" action={`${summary.watchlistHoldings.length} innehav`}>
           <div className="space-y-3">
             {summary.watchlistHoldings.length === 0 ? (
-              <p className="text-sm text-zinc-500">Inga watchlist-innehav räknas som investerade innehav.</p>
+              <p className="text-sm text-muted-foreground">Inga watchlist-innehav räknas som investerade innehav.</p>
             ) : (
               summary.watchlistHoldings.map((holding) => (
-                <div key={holding.id} className="rounded-lg border border-white/10 bg-card p-4">
+                <div key={holding.id} className="rounded-lg border border-border-muted bg-surface p-4">
                   <p className="text-sm font-medium">{holding.name}</p>
-                  <p className="mt-1 text-sm text-zinc-500">{holding.notes}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{holding.notes}</p>
                 </div>
               ))
             )}
@@ -176,7 +176,7 @@ export function DashboardPage({
                 >
                   <Icon size={17} />
                   <span>{item.label}</span>
-                  <ChevronRight className="ml-auto text-zinc-600" size={16} />
+                  <ChevronRight className="ml-auto text-muted-foreground" size={16} />
                 </Button>
               )
             })}

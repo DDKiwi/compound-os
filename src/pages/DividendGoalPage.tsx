@@ -36,11 +36,11 @@ export function DividendGoalPage({
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={dividendCalendar} margin={{ left: -24, right: 8, top: 16, bottom: 0 }}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis dataKey="monthName" tickLine={false} axisLine={false} tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fill: '#71717a', fontSize: 12 }} />
+                <CartesianGrid stroke="var(--border-muted)" vertical={false} />
+                <XAxis dataKey="monthName" tickLine={false} axisLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
                 <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="expectedDividend" name="Utdelning" radius={[6, 6, 0, 0]} fill="#22c55e" />
+                <Bar dataKey="expectedDividend" name="Utdelning" radius={[6, 6, 0, 0]} fill="var(--accent)" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -48,15 +48,15 @@ export function DividendGoalPage({
 
         <Card title="Kalenderbalans" action="SEK">
           <div className="grid gap-3">
-            <div className="rounded-lg border border-white/10 bg-card p-4">
-              <p className="text-xs text-zinc-500">Starkaste månad</p>
-              <p className="mt-1 text-lg font-semibold text-zinc-100">{bestDividendMonth.monthName}</p>
-              <p className="mt-1 text-sm text-zinc-500">{formatCurrency(bestDividendMonth.expectedDividend)}</p>
+            <div className="rounded-lg border border-border-muted bg-surface p-4">
+              <p className="text-xs text-muted-foreground">Starkaste månad</p>
+              <p className="mt-1 text-lg font-semibold text-foreground">{bestDividendMonth.monthName}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{formatCurrency(bestDividendMonth.expectedDividend)}</p>
             </div>
-            <div className="rounded-lg border border-white/10 bg-card p-4">
-              <p className="text-xs text-zinc-500">Svagaste månad</p>
-              <p className="mt-1 text-lg font-semibold text-zinc-100">{weakestDividendMonth.monthName}</p>
-              <p className="mt-1 text-sm text-zinc-500">{formatCurrency(weakestDividendMonth.expectedDividend)}</p>
+            <div className="rounded-lg border border-border-muted bg-surface p-4">
+              <p className="text-xs text-muted-foreground">Svagaste månad</p>
+              <p className="mt-1 text-lg font-semibold text-foreground">{weakestDividendMonth.monthName}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{formatCurrency(weakestDividendMonth.expectedDividend)}</p>
             </div>
           </div>
         </Card>
@@ -65,22 +65,22 @@ export function DividendGoalPage({
       <Card title="Månadsvisa betalningar" action="Innehav">
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {dividendCalendar.map((month) => (
-            <div key={month.month} className="rounded-lg border border-white/10 bg-card p-4">
+            <div key={month.month} className="rounded-lg border border-border-muted bg-surface p-4">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <p className="text-sm font-medium text-zinc-100">{month.monthName}</p>
-                <p className="text-sm text-zinc-400">{formatCurrency(month.expectedDividend)}</p>
+                <p className="text-sm font-medium text-foreground">{month.monthName}</p>
+                <p className="text-sm text-muted-foreground">{formatCurrency(month.expectedDividend)}</p>
               </div>
               {month.holdings.length === 0 ? (
-                <p className="text-sm text-zinc-600">Inga förväntade betalningar.</p>
+                <p className="text-sm text-muted-foreground">Inga förväntade betalningar.</p>
               ) : (
                 <div className="space-y-2">
                   {month.holdings.map((holding) => (
                     <div key={`${month.month}-${holding.ticker}`} className="flex items-start justify-between gap-3 text-sm">
                       <div className="min-w-0">
-                        <p className="truncate text-zinc-200">{holding.name}</p>
-                        <p className="text-xs text-zinc-500">{holding.ticker} | {holding.accountType} | {classificationLabel(holding.classification)}</p>
+                        <p className="truncate text-foreground">{holding.name}</p>
+                        <p className="text-xs text-muted-foreground">{holding.ticker} | {holding.accountType} | {classificationLabel(holding.classification)}</p>
                       </div>
-                      <p className="shrink-0 text-zinc-400">{formatCurrency(holding.expectedDividend)}</p>
+                      <p className="shrink-0 text-muted-foreground">{formatCurrency(holding.expectedDividend)}</p>
                     </div>
                   ))}
                 </div>
@@ -95,11 +95,11 @@ export function DividendGoalPage({
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={projection} margin={{ left: -24, right: 8, top: 16, bottom: 0 }}>
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fill: '#71717a', fontSize: 12 }} />
+                <CartesianGrid stroke="var(--border-muted)" vertical={false} />
+                <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} />
                 <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="amount" radius={[6, 6, 0, 0]} fill="#22c55e" />
+                <Bar dataKey="amount" radius={[6, 6, 0, 0]} fill="var(--accent)" />
               </BarChart>
             </ResponsiveContainer>
           </div>

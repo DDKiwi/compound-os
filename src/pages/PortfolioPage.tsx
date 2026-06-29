@@ -71,7 +71,7 @@ function PortfolioTable({ group }: { group: PortfolioAccountGroup }) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[920px] text-left text-sm">
-        <thead className="border-b border-white/10 text-xs uppercase tracking-[0.14em] text-zinc-500">
+        <thead className="border-b border-border-muted text-xs uppercase tracking-[0.14em] text-muted-foreground">
           <tr>
             <th className="py-3 pr-4 font-medium">Namn</th>
             <th className="py-3 pr-4 font-medium">Klassificering</th>
@@ -82,12 +82,12 @@ function PortfolioTable({ group }: { group: PortfolioAccountGroup }) {
             <th className="py-3 text-right font-medium">Årsutdelning</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/10">
+        <tbody className="divide-y divide-border-muted">
           {group.holdings.map(({ holding, weight, expectedYearlyDividend }) => (
-            <tr key={holding.id} className="text-zinc-300">
+            <tr key={holding.id} className="text-foreground">
               <td className="py-4 pr-4">
-                <div className="font-medium text-zinc-100">{holding.name}</div>
-                <div className="text-xs text-zinc-500">{holding.ticker}</div>
+                <div className="font-medium text-foreground">{holding.name}</div>
+                <div className="text-xs text-muted-foreground">{holding.ticker}</div>
               </td>
               <td className="py-4 pr-4">
                 <ClassificationBadge holding={holding} />

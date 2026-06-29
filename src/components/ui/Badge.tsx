@@ -7,7 +7,7 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-white/10 bg-white/[0.04] text-zinc-300',
+        default: 'border-border-muted bg-muted text-foreground',
         success: 'border-success/25 bg-success/10 text-success',
         destructive: 'border-destructive/25 bg-destructive/10 text-destructive',
         warning: 'border-warning/25 bg-warning/10 text-warning',

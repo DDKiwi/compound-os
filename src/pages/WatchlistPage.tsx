@@ -7,7 +7,7 @@ export function WatchlistPage({ items }: { items: WatchItem[] }) {
   return (
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-2xl text-sm leading-6 text-zinc-400">
+        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
           Bevakningslistan är avsedd för framtida köp, inte impulsaffärer. Varje rad kräver en tydlig trigger.
         </p>
         <Button type="button">

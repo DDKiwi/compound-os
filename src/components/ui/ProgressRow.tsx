@@ -14,10 +14,10 @@ export function ProgressRow({
   return (
     <div>
       <div className="mb-2 flex items-center gap-3 text-sm">
-        <span className="truncate text-zinc-300">{label}</span>
-        <span className="ml-auto text-zinc-500">{suffix ?? `${percentage}%`}</span>
+        <span className="truncate text-foreground">{label}</span>
+        <span className="ml-auto text-muted-foreground">{suffix ?? `${percentage}%`}</span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-white/10">
+      <div className="h-2 overflow-hidden rounded-full bg-muted">
         <div className="h-full rounded-full bg-accent" style={{ width: `${Math.min(percentage, 100)}%` }} />
       </div>
     </div>

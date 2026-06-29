@@ -13,7 +13,14 @@ export const formatPercent = (value: number) =>
     minimumFractionDigits: 1,
   }).format(value)
 
-export const chartColors = ['#22c55e', '#2563eb', '#a1a1aa', '#eab308', '#71717a', '#52525b']
+export const chartColors = [
+  'var(--accent)',
+  'var(--warning)',
+  'var(--border)',
+  'var(--text-secondary)',
+  'var(--border-muted)',
+  'var(--foreground)',
+]
 
 export function toneClass(tone: 'neutral' | 'good' | 'bad') {
   if (tone === 'good') {
@@ -24,7 +31,7 @@ export function toneClass(tone: 'neutral' | 'good' | 'bad') {
     return 'border-destructive/25 bg-destructive/10 text-destructive'
   }
 
-  return 'border-white/10 bg-white/[0.04] text-zinc-300'
+  return 'border-border-muted bg-muted text-foreground'
 }
 
 export function classificationLabel(classification: HoldingClassification) {

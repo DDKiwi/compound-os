@@ -8,7 +8,7 @@ type CardProps = ComponentProps<'div'> & {
 function Card({ as: Comp = 'div', className, ...props }: CardProps) {
   return (
     <Comp
-      className={cn('rounded-lg border border-white/10 bg-card text-card-foreground shadow-sm shadow-black/20', className)}
+      className={cn('rounded-lg border border-border bg-card text-card-foreground shadow-[var(--shadow-subtle)]', className)}
       {...props}
     />
   )
@@ -19,11 +19,11 @@ function CardHeader({ className, ...props }: ComponentProps<'div'>) {
 }
 
 function CardTitle({ className, ...props }: ComponentProps<'h2'>) {
-  return <h2 className={cn('text-sm font-semibold text-zinc-100', className)} {...props} />
+  return <h2 className={cn('text-sm font-semibold text-foreground', className)} {...props} />
 }
 
 function CardAction({ className, ...props }: ComponentProps<'span'>) {
-  return <span className={cn('text-xs text-zinc-500', className)} {...props} />
+  return <span className={cn('text-xs text-muted-foreground', className)} {...props} />
 }
 
 function CardContent({ className, ...props }: ComponentProps<'div'>) {

@@ -4,14 +4,14 @@ import type { ComponentProps } from 'react'
 import { cn } from '../../lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        ghost: 'text-zinc-400 hover:bg-primary/10 hover:text-zinc-100',
-        outline: 'border border-white/10 bg-transparent text-zinc-400 hover:border-primary/40 hover:bg-primary/10 hover:text-zinc-100',
-        secondary: 'border border-white/10 bg-card text-zinc-300 hover:border-primary/30 hover:bg-primary/10',
+        default: 'border border-primary bg-primary text-primary-foreground hover:bg-accent',
+        ghost: 'text-muted-foreground hover:bg-muted hover:text-foreground',
+        outline: 'border border-border bg-transparent text-foreground hover:bg-muted',
+        secondary: 'border border-border-muted bg-surface text-foreground hover:border-border hover:bg-muted',
       },
       size: {
         default: 'h-10 px-3 py-2',

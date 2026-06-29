@@ -14,9 +14,9 @@ export function ChartTooltip({
   }
 
   return (
-    <div className="rounded-lg border border-white/10 bg-zinc-950/95 px-3 py-2 text-sm shadow-xl">
-      <p className="font-medium text-zinc-100">{label ?? payload[0].name}</p>
-      <p className="text-zinc-400">{formatCurrency(Number(payload[0].value))}</p>
+    <div className="rounded-lg border border-border bg-surface-elevated px-3 py-2 text-sm shadow-[var(--shadow-subtle)]">
+      <p className="font-medium text-foreground">{label ?? payload[0].name}</p>
+      <p className="text-muted-foreground">{formatCurrency(Number(payload[0].value))}</p>
     </div>
   )
 }

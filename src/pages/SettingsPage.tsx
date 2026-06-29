@@ -13,12 +13,12 @@ export function SettingsPage() {
           <SettingRow label="Mörkt tema" value="Aktivt" />
           <SettingRow label="Datakälla" value="Mockdata" />
           <SettingRow label="Supabase" value="Ej anslutet" />
-          <label className="flex cursor-pointer items-center justify-between rounded-lg border border-white/10 bg-card p-4">
+          <label className="flex cursor-pointer items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
             <span>
               <span className="block text-sm font-medium">Fokusläge</span>
-              <span className="text-sm text-zinc-500">Dölj brus när vyerna växer.</span>
+              <span className="text-sm text-muted-foreground">Dölj brus när vyerna växer.</span>
             </span>
-            <input type="checkbox" checked={focusMode} onChange={toggleFocusMode} className="h-5 w-5 accent-white" />
+            <input type="checkbox" checked={focusMode} onChange={toggleFocusMode} className="h-5 w-5 accent-accent" />
           </label>
         </div>
       </Card>
@@ -30,9 +30,9 @@ export function SettingsPage() {
             ['Importflöde', 'CSV eller manuell transaktion per konto.'],
             ['Regelmotor', 'Automatiska varningar för high-risk, KF och målallokering.'],
           ].map(([title, text]) => (
-            <div key={title} className="rounded-lg border border-white/10 bg-card p-4">
+            <div key={title} className="rounded-lg border border-border-muted bg-surface p-4">
               <p className="text-sm font-medium">{title}</p>
-              <p className="mt-1 text-sm leading-6 text-zinc-400">{text}</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">{text}</p>
             </div>
           ))}
         </div>
