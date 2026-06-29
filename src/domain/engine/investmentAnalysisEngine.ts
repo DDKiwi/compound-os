@@ -9,12 +9,12 @@ import type {
   RuleResult,
   RuleSummary,
 } from '../types'
-import { buildPortfolioAllocation, type PortfolioAllocationInput } from './portfolioAllocationBuilder'
-import { buildPortfolioMetrics } from './portfolioMetricsBuilder'
-import { buildPortfolioSnapshot, type PortfolioSnapshotInput } from './portfolioSnapshotBuilder'
-import { buildRecommendations } from './recommendationBuilder'
+import { buildPortfolioAllocation, type PortfolioAllocationInput } from '../builders/portfolioAllocationBuilder'
+import { buildPortfolioMetrics } from '../builders/portfolioMetricsBuilder'
+import { buildPortfolioSnapshot, type PortfolioSnapshotInput } from '../builders/portfolioSnapshotBuilder'
+import { buildRecommendations } from '../builders/recommendationBuilder'
+import { buildRuleSummary } from '../builders/ruleSummaryBuilder'
 import { evaluateRules } from './ruleEngine'
-import { buildRuleSummary } from './ruleSummaryBuilder'
 
 export type InvestmentAnalysisInput = {
   readonly policy: InvestmentPolicy

@@ -1,4 +1,4 @@
-# Domain Engine
+# Domain
 
 ## Purpose
 
@@ -27,12 +27,12 @@ The investment analysis pipeline is coordinated by `analyzeInvestment`.
 
 ```ts
 input
-  -> PortfolioSnapshot
-  -> PortfolioAllocation
-  -> PortfolioMetrics
+  -> PortfolioSnapshotBuilder
+  -> PortfolioAllocationBuilder
+  -> PortfolioMetricsBuilder
   -> InvestmentContext
   -> RuleEngine
-  -> RuleSummary
+  -> RuleSummaryBuilder
   -> RecommendationBuilder
   -> InvestmentAnalysisResult
 ```
@@ -75,6 +75,12 @@ Allocation entries should represent domain facts, not UI formatting.
 
 Metrics should be computed from domain objects rather than duplicated across callers. This keeps rule evaluation consistent and avoids spreading calculation logic into the UI or application layer.
 
+### Builders
+
+Builders live in `src/domain/builders`.
+
+They build deterministic domain objects from explicit inputs. They should remain pure, testable and free from orchestration concerns.
+
 ### InvestmentContext
 
 `InvestmentContext` is the shared input passed to investment rules.
@@ -110,7 +116,7 @@ It does not invent recommendations on its own. Recommendations remain tied to ru
 
 `InvestmentAnalysisEngine` coordinates the full domain pipeline.
 
-It builds the snapshot, allocation and metrics, creates the `InvestmentContext`, evaluates rules, builds the summary and collects recommendations. It returns a complete `InvestmentAnalysisResult` for the application layer to consume.
+It calls builders for the snapshot, allocation, metrics, rule summary and recommendations, creates the `InvestmentContext`, evaluates rules and returns a complete `InvestmentAnalysisResult` for the application layer to consume.
 
 This engine is the main entry point for investment analysis.
 
@@ -127,6 +133,7 @@ Allowed in `src/domain`:
 * validation of domain invariants
 * investment rules
 * domain engines
+* deterministic builders
 * mock domain data used for development and tests
 
 Avoid in `src/domain`:
@@ -140,4 +147,3 @@ Avoid in `src/domain`:
 * formatting that only exists for presentation
 
 Application code may call the domain. The domain must not call application code.
-
