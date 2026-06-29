@@ -39,5 +39,6 @@ export type {
   SuggestedAction,
 } from './InvestmentPolicy'
 export type { InvestmentContext } from './InvestmentContext'
+export type { PortfolioSnapshot } from './PortfolioSnapshot'
 export type { InvestmentRule, RuleCategory, RuleResult, RuleSeverity, RuleStatus } from './Rule'
 export type { JournalEntry } from './JournalEntry'

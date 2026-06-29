@@ -3,7 +3,7 @@ import type { InvestmentContext, InvestmentRule, RuleResult } from '../types'
 export const CashReserveRule: InvestmentRule = {
   id: 'cash-reserve',
   title: 'Cash reserve',
-  description: 'Verifies that the investment policy defines a cash reserve.',
+  description: 'Verifies that the portfolio cash reserve meets the investment policy.',
   severity: 'warning',
   category: 'cash',
 
@@ -14,16 +14,32 @@ export const CashReserveRule: InvestmentRule = {
         title: this.title,
         status: 'warning',
         message: 'The investment policy does not define a cash reserve.',
-        details: ['Add a cash reserve policy before evaluating cash reserve coverage.'],
+        details: ['Add a cash reserve target before evaluating cash reserve coverage.'],
+      }
+    }
+
+    if (context.snapshot.cashWeight >= context.policy.cashReserve) {
+      return {
+        ruleId: this.id,
+        title: this.title,
+        status: 'pass',
+        message: 'The portfolio cash reserve meets the investment policy.',
+        details: [
+          `Cash weight: ${context.snapshot.cashWeight}.`,
+          `Target cash weight: ${context.policy.cashReserve}.`,
+        ],
       }
     }
 
     return {
       ruleId: this.id,
       title: this.title,
-      status: 'pass',
-      message: 'The investment policy defines a cash reserve.',
-      details: [`Target reserve: ${context.policy.cashReserve.targetMonths} months.`],
+      status: 'fail',
+      message: 'The portfolio cash reserve is below the investment policy target.',
+      details: [
+        `Cash weight: ${context.snapshot.cashWeight}.`,
+        `Target cash weight: ${context.policy.cashReserve}.`,
+      ],
     }
   },
 }

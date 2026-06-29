@@ -28,6 +28,11 @@ const context: InvestmentContext = {
       driftThreshold: 0.1,
     },
   },
+  snapshot: {
+    totalValue: 100_000,
+    cashValue: 10_000,
+    cashWeight: 0.1,
+  },
 }
 
 function createRuleResult(ruleId: string, status: RuleResult['status'] = 'pass'): RuleResult {

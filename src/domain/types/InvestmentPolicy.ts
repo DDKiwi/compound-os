@@ -39,9 +39,7 @@ export type DividendPolicy = {
   notes?: string
 }
 
-export type CashReservePolicy = {
-  targetMonths: number
-}
+export type CashReservePolicy = number
 
 export type RebalancingRule = {
   id: string
