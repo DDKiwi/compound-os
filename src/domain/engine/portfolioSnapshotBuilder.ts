@@ -1,6 +1,6 @@
 import type { PortfolioSnapshot } from '../types'
 
-type PortfolioSnapshotInput = {
+export type PortfolioSnapshotInput = {
   readonly totalValue: number
   readonly cashValue: number
 }
