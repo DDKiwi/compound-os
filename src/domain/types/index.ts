@@ -41,6 +41,9 @@ export type {
   SuggestedAction,
 } from './InvestmentPolicy'
 export type { InvestmentContext } from './InvestmentContext'
+export type { Insight } from './Insight'
+export type { InsightCategory } from './InsightCategory'
+export type { InsightImportance } from './InsightImportance'
 export type { AllocationWeight, PortfolioAllocation } from './PortfolioAllocation'
 export type { PortfolioMetrics } from './PortfolioMetrics'
 export type { PortfolioSnapshot } from './PortfolioSnapshot'
