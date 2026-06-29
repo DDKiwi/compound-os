@@ -25,7 +25,7 @@ function getDominantDividendMonth(forecast: DividendForecast) {
 }
 
 export function buildInsights(
-  dividendForecast: DividendForecast,
+  dividendForecast: DividendForecast | undefined,
   ruleSummary: RuleSummary,
   ruleResults: readonly RuleResult[],
 ): Insight[] {
@@ -49,6 +49,10 @@ export function buildInsights(
       category: 'health',
       importance: 'high',
     })
+  }
+
+  if (dividendForecast === undefined) {
+    return insights
   }
 
   if (hasNoDividendPayments(dividendForecast)) {

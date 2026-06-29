@@ -4,7 +4,7 @@
 
 `src/domain` contains the core business logic for Compound OS.
 
-This layer models the investment domain independently from presentation, persistence and integration details. It is responsible for turning portfolio inputs and an investment policy into deterministic analysis results, summaries and recommendations.
+This layer models the investment domain independently from presentation, persistence and integration details. It is responsible for turning portfolio inputs and an investment policy into a deterministic `InvestmentAnalysisReport`.
 
 The domain exists so that long-term investment decisions can be evaluated in one place, using consistent concepts and rules.
 
@@ -26,28 +26,25 @@ Any dependency should point into the domain layer, not from the domain layer int
 The investment analysis pipeline is coordinated by `analyzeInvestment`.
 
 ```ts
-input
-  -> PortfolioSnapshotBuilder
-  -> PortfolioAllocationBuilder
-  -> PortfolioMetricsBuilder
-  -> InvestmentContext
-  -> RuleEngine
-  -> RuleSummaryBuilder
-  -> RecommendationBuilder
-  -> InvestmentAnalysisResult
+Portfolio
+  -> InvestmentAnalysisEngine
+  -> InvestmentAnalysisReport
 ```
 
 The pipeline is intentionally explicit:
 
 1. Raw portfolio input is normalized into domain objects.
 2. Derived portfolio metrics are calculated.
-3. The investment policy, snapshot, allocation and metrics are combined into an `InvestmentContext`.
+3. The investment policy, snapshot, allocation and metrics are combined into an internal `InvestmentContext`.
 4. Rules evaluate the context and return objective results.
 5. Rule results are summarized.
 6. Recommendations are built from rule results when a rule supports them.
-7. The final analysis result is returned to callers.
+7. Insights are built from the dividend forecast, rule summary and rule results.
+8. The final `InvestmentAnalysisReport` is returned to callers.
 
 Each step should remain deterministic and testable. The same input should always produce the same output.
+
+`InvestmentAnalysisReport` is the primary public contract exposed by the Domain layer. React UI, dashboards, reports, CLIs, Azure Functions, MCP servers and assistants should consume this report instead of depending on the internal pipeline shape.
 
 ---
 
@@ -112,11 +109,23 @@ It tracks totals for passed, warning and failed rules, calculates an overall sco
 
 It does not invent recommendations on its own. Recommendations remain tied to rule outcomes so the user can understand what triggered them and why they matter.
 
+### InsightBuilder
+
+`InsightBuilder` converts analysis facts into observations that help users understand the portfolio.
+
+Insights are not rules and they are not recommendations. They should remain deterministic and should not call AI, APIs or persistence.
+
+### InvestmentAnalysisReport
+
+`InvestmentAnalysisReport` represents the final output of the Domain engine.
+
+It contains the generated timestamp, portfolio snapshot, allocation, metrics, optional dividend forecast, rule summary, rule results, recommendations and insights. Consumers should treat the report as immutable and serializable, with `Date` as the only non-plain JSON value.
+
 ### InvestmentAnalysisEngine
 
 `InvestmentAnalysisEngine` coordinates the full domain pipeline.
 
-It calls builders for the snapshot, allocation, metrics, rule summary and recommendations, creates the `InvestmentContext`, evaluates rules and returns a complete `InvestmentAnalysisResult` for the application layer to consume.
+It calls builders for the snapshot, allocation, metrics, rule summary, recommendations and insights, creates the internal `InvestmentContext`, evaluates rules and returns a complete `InvestmentAnalysisReport` for the application layer to consume.
 
 This engine is the main entry point for investment analysis.
 
