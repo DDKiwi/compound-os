@@ -39,6 +39,8 @@ export {
   getRequiredCapitalForMonthlyDividendGoal,
 } from './dividendEngine'
 export type { DividendCalendarHolding, DividendCalendarMonth, DividendForecastParams, DividendForecastYear } from './dividendEngine'
+export { buildDividendForecast } from './dividendForecastEngine'
+export type { DividendForecastInput } from './dividendForecastEngine'
 export {
   evaluateHighRiskRule,
   evaluateInvestmentPhilosophy,
