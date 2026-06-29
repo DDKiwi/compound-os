@@ -41,6 +41,12 @@ export type DividendPolicy = {
 
 export type CashReservePolicy = number
 
+export type SectorLimit = {
+  readonly id: string
+  readonly name: string
+  readonly maxWeight: number
+}
+
 export type RebalancingRule = {
   id: string
   driftThreshold: number
@@ -53,6 +59,7 @@ export type InvestmentPolicy = {
   riskTolerance: RiskTolerance
   allocationRules: AllocationRule[]
   maxHoldingWeight?: number
+  sectorLimits?: readonly SectorLimit[]
   positionRule: PositionRule
   exposureRule: ExposureRule
   dividendPolicy: DividendPolicy

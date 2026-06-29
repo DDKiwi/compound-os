@@ -36,6 +36,7 @@ export type {
   PositionRule,
   RebalancingRule,
   RiskTolerance,
+  SectorLimit,
   SuggestedAction,
 } from './InvestmentPolicy'
 export type { InvestmentContext } from './InvestmentContext'
