@@ -121,6 +121,12 @@ Insights are not rules and they are not recommendations. They should remain dete
 
 It contains the generated timestamp, portfolio snapshot, allocation, metrics, optional dividend forecast, rule summary, rule results, recommendations and insights. Consumers should treat the report as immutable and serializable, with `Date` as the only non-plain JSON value.
 
+### InvestmentAnalysisSession
+
+`InvestmentAnalysisSession` represents a single savable analysis run.
+
+It connects the analyzed portfolio, investment policy and resulting `InvestmentAnalysisReport` with session metadata such as id, creation time and version. Session creation, persistence and UI behavior belong outside this type.
+
 ### InvestmentAnalysisEngine
 
 `InvestmentAnalysisEngine` coordinates the full domain pipeline.

@@ -42,6 +42,7 @@ export type {
 } from './InvestmentPolicy'
 export type { InvestmentContext } from './InvestmentContext'
 export type { InvestmentAnalysisReport } from './InvestmentAnalysisReport'
+export type { InvestmentAnalysisSession } from './InvestmentAnalysisSession'
 export type { Insight } from './Insight'
 export type { InsightCategory } from './InsightCategory'
 export type { InsightImportance } from './InsightImportance'
