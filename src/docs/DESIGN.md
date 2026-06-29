@@ -1,196 +1,138 @@
-# Compound OS - Design Philosophy
+# Design.md
 
-## Vision
+# Compound OS Design Language
 
-Compound OS should feel like an old engineering workstation.
+## Design Philosophy
 
-Not nostalgic.
+Compound OS is a workstation.
 
-Not retro for the sake of retro.
+Every pixel should help the user make a better investment decision.
 
-Instead it should communicate:
+Information density is a feature.
+
+Animations should communicate state, never decoration.
+
+Whitespace exists to improve readability, not aesthetics.
+
+The application should feel calm.
+
+The application should feel trustworthy.
+
+The application should feel precise.
+
+Never design for excitement.
+
+Always design for clarity.
+
+## Design Vision
+
+Compound OS should feel like a professional investment workstation.
+
+It should communicate confidence, clarity and focus—not excitement.
+
+The interface should disappear behind the information.
+
+---
+
+## Inspiration
+
+* Bloomberg Terminal
+* Old IBM workstations
+* MS-DOS aesthetics
+* Modern developer tools
+* Apple Human Interface Guidelines (clarity, not visuals)
+
+This is inspiration—not imitation.
+
+---
+
+## Personality
+
+The product should feel:
 
 * calm
-* focus
-* precision
-* long-term thinking
+* precise
+* trustworthy
+* timeless
+* technical
+* distraction-free
 
-The application should feel closer to Bloomberg Terminal, early UNIX workstations and old CAD software than modern flashy finance apps.
+It should never feel:
 
----
-
-# Design Keywords
-
-Minimal
-
-Functional
-
-Monochrome
-
-Technical
-
-Timeless
-
-Calm
-
-Dense information
-
-No distractions
+* playful
+* sales-oriented
+* social
+* trendy
+* overloaded
 
 ---
 
-# Colors
+## Visual Language
 
-Primary background:
+### Colors
 
-Warm light gray
+Primarily:
 
-Not white.
+* warm gray
+* charcoal
+* black
+* white
 
-Not dark mode.
+Accent colors exist only to communicate meaning.
 
-Cards:
+Green means success.
 
-Slightly darker gray.
+Amber means warning.
 
-Borders:
+Red means attention.
 
-Thin 1px medium gray borders.
-
-No shadows.
-
-No glassmorphism.
-
-No gradients.
-
-Accent:
-
-Black only.
-
-Green should only indicate positive portfolio health.
-
-Red should almost never be used.
-
-Warnings should use subtle amber.
+Color should never be decorative.
 
 ---
 
-# Typography
+### Typography
 
-Everything uses a monospace font.
+Use a monospace font throughout the application.
 
-Preferred fonts:
-
-JetBrains Mono
-
-IBM Plex Mono
-
-Fira Code
-
-No proportional fonts.
-
-Large numbers should feel like values printed from a terminal.
+Typography should create rhythm through spacing and weight—not through multiple font families.
 
 ---
 
-# Components
+### Layout
 
-Everything is based on simple rectangles.
+Prefer:
 
-No rounded cards.
+* clear grids
+* generous spacing
+* visible borders
+* structured panels
 
-No floating widgets.
-
-No excessive padding.
-
-Everything aligns to a grid.
-
-Spacing is more important than decoration.
+Avoid floating elements and unnecessary visual effects.
 
 ---
 
-# Icons
+### Motion
 
-Minimal.
+Animations should be subtle.
 
-Prefer ASCII feeling over illustrations.
-
-Lucide icons only.
+They should explain state changes—not entertain.
 
 ---
 
-# Charts
+## Information Density
 
-Charts should look analytical.
+Compound OS is designed for users who work with information.
 
-No bright colors.
+Dense interfaces are acceptable if they remain readable.
 
-Bars:
-
-Black
-
-Gray
-
-White
-
-Thin grid lines.
-
-Simple axes.
-
-No animations.
+Whitespace is used for structure—not emptiness.
 
 ---
 
-# Progress Bars
+## Design Principle
 
-Old-school segmented bars.
+Every visual element must answer one question:
 
-████████░░░░░░░░
+**Does this help the user make a better investment decision?**
 
-Not modern rounded progress bars.
-
----
-
-# Tables
-
-Tables are first-class citizens.
-
-Think:
-
-old accounting software
-
-terminal output
-
-Bloomberg
-
-Excel
-
-not social media.
-
----
-
-# Motion
-
-Very little animation.
-
-100–150 ms transitions.
-
-No bouncing.
-
-No scaling.
-
-No loading skeletons.
-
----
-
-# Overall Feeling
-
-The user should feel like they are sitting in front of an investment workstation.
-
-Not using a finance app.
-
-The interface should encourage thinking instead of trading.
-
-If a design decision makes the interface look more exciting but less focused,
-
-choose the focused option.
+If not, it probably should not exist.
