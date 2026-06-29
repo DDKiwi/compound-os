@@ -1,17 +1,34 @@
-export type RuleSeverity = 'info' | 'warning' | 'critical'
+import type { InvestmentContext } from './InvestmentContext'
 
-export type InvestmentRule = {
-  id: string
-  title: string
-  description: string
-  severity: RuleSeverity
-}
+export type RuleSeverity = 'info' | 'warning' | 'critical'
 
 export type RuleStatus = 'pass' | 'warning' | 'fail'
 
+export type RuleCategory =
+  | 'allocation'
+  | 'risk'
+  | 'dividend'
+  | 'tax'
+  | 'valuation'
+  | 'cash'
+  | 'quality'
+  | 'policy'
+
 export type RuleResult = {
-  ruleId: string
-  title: string
-  status: RuleStatus
-  message: string
+  readonly ruleId: string
+  readonly title: string
+  readonly status: RuleStatus
+  readonly message: string
+  readonly score?: number
+  readonly details?: readonly string[]
+}
+
+export interface  InvestmentRule {
+  readonly id: string
+  readonly title: string
+  readonly description: string
+  readonly severity: RuleSeverity
+  readonly category: RuleCategory
+
+  evaluate(context: InvestmentContext): RuleResult
 }

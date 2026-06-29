@@ -37,5 +37,6 @@ export type {
   RiskTolerance,
   SuggestedAction,
 } from './InvestmentPolicy'
-export type { InvestmentRule, RuleResult, RuleSeverity, RuleStatus } from './Rule'
+export type { InvestmentContext } from './InvestmentContext'
+export type { InvestmentRule, RuleCategory, RuleResult, RuleSeverity, RuleStatus } from './Rule'
 export type { JournalEntry } from './JournalEntry'

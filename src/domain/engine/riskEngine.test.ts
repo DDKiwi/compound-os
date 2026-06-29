@@ -93,7 +93,19 @@ const goals: Goal = {
 }
 
 const rules: InvestmentRule[] = [
-  { id: 'high-risk-limit', title: 'High risk', description: '', severity: 'critical' },
+  {
+    id: 'high-risk-limit',
+    title: 'High risk',
+    description: '',
+    severity: 'critical',
+    category: 'risk',
+    evaluate: () => ({
+      ruleId: 'high-risk-limit',
+      title: 'High risk',
+      status: 'pass',
+      message: 'Rule is not implemented yet.',
+    }),
+  },
 ]
 
 describe('riskEngine', () => {

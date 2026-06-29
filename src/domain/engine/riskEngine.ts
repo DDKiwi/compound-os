@@ -85,12 +85,26 @@ export function evaluateInvestmentRules(
     title: 'Kassabuffert',
     description: 'Kassabufferten ska byggas mot mål.',
     severity: 'warning',
+    category: 'cash',
+    evaluate: () => ({
+      ruleId: 'cash-buffer-target',
+      title: 'Kassabuffert',
+      status: 'pass',
+      message: 'Rule is not implemented yet.',
+    }),
   })
   const concentrationRule = findRule(rules, 'single-holding-concentration', {
     id: 'single-holding-concentration',
     title: 'Max 25 % i enskilt innehav',
     description: 'Inget enskilt innehav ska överstiga 25 %, förutom global indexbas.',
     severity: 'warning',
+    category: 'allocation',
+    evaluate: () => ({
+      ruleId: 'single-holding-concentration',
+      title: 'Max 25 % i enskilt innehav',
+      status: 'pass',
+      message: 'Rule is not implemented yet.',
+    }),
   })
   const speculativeHoldings = activeHoldings.filter(
     (holding) => holding.isSpeculative || holding.classification === 'SpeculativeGrowth',
