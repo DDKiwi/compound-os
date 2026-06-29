@@ -24,6 +24,7 @@ export type {
   AllocationTarget,
   AllocationType,
   CashReservePolicy,
+  CountryLimit,
   DividendPolicy,
   DividendPreference,
   ExposureRule,

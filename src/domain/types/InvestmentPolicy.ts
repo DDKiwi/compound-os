@@ -47,6 +47,12 @@ export type SectorLimit = {
   readonly maxWeight: number
 }
 
+export type CountryLimit = {
+  readonly id: string
+  readonly name: string
+  readonly maxWeight: number
+}
+
 export type RebalancingRule = {
   id: string
   driftThreshold: number
@@ -60,6 +66,7 @@ export type InvestmentPolicy = {
   allocationRules: AllocationRule[]
   maxHoldingWeight?: number
   sectorLimits?: readonly SectorLimit[]
+  countryLimits?: readonly CountryLimit[]
   positionRule: PositionRule
   exposureRule: ExposureRule
   dividendPolicy: DividendPolicy
