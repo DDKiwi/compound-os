@@ -41,6 +41,7 @@ export type PortfolioStats = {
 }
 
 export type Portfolio = {
+  id?: string
   holdings: Holding[]
   watchlist: WatchItem[]
   journalEntries: JournalEntry[]

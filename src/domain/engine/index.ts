@@ -54,3 +54,4 @@ export {
 } from './riskEngine'
 export { createDashboardSummary } from './dashboardEngine'
 export type { DashboardSummary } from './dashboardEngine'
+export { evaluateInvestmentPolicy } from './investmentPolicyEngine'

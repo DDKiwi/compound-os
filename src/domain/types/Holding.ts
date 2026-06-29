@@ -25,6 +25,7 @@ export type Holding = {
   id: string
   name: string
   ticker: string
+  sector?: string
   accountType: AccountType
   marketValue: number
   monthlyContribution: number
