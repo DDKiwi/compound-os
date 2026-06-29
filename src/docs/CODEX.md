@@ -81,6 +81,18 @@ Never implement UI first.
 
 ---
 
+## Formatting
+
+The project uses Prettier for formatting.
+
+Do not manually change formatting.
+
+Do not reformat unrelated files.
+
+Keep diffs focused on the requested task.
+
+---
+
 # If Unsure
 
 Choose the simplest solution that preserves a clean architecture.
