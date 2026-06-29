@@ -23,6 +23,7 @@ export type {
   AllocationRule,
   AllocationTarget,
   AllocationType,
+  CashReservePolicy,
   DividendPolicy,
   DividendPreference,
   ExposureRule,

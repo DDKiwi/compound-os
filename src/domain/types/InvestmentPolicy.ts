@@ -39,6 +39,10 @@ export type DividendPolicy = {
   notes?: string
 }
 
+export type CashReservePolicy = {
+  targetMonths: number
+}
+
 export type RebalancingRule = {
   id: string
   driftThreshold: number
@@ -53,6 +57,7 @@ export type InvestmentPolicy = {
   positionRule: PositionRule
   exposureRule: ExposureRule
   dividendPolicy: DividendPolicy
+  cashReserve?: CashReservePolicy
   rebalancingRule: RebalancingRule
 }
 
