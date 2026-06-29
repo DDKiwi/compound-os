@@ -55,3 +55,4 @@ export {
 export { createDashboardSummary } from './dashboardEngine'
 export type { DashboardSummary } from './dashboardEngine'
 export { evaluateInvestmentPolicy } from './investmentPolicyEngine'
+export { evaluateRules } from './ruleEngine'
