@@ -52,6 +52,7 @@ export type InvestmentPolicy = {
   philosophy: InvestmentPhilosophy
   riskTolerance: RiskTolerance
   allocationRules: AllocationRule[]
+  maxHoldingWeight?: number
   positionRule: PositionRule
   exposureRule: ExposureRule
   dividendPolicy: DividendPolicy
