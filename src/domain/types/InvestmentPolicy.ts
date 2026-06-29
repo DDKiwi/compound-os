@@ -24,8 +24,12 @@ export type PositionRule = {
 }
 
 export type ExposureRule = {
-  id: string
-  maxWeight: number
+    id: string
+    exposureType:
+        | "sector"
+        | "country"
+        | "currency"
+    maxWeight: number
 }
 
 export type DividendPreference = 'income' | 'growth' | 'balanced' | 'none'

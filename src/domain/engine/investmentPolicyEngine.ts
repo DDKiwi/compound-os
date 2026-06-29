@@ -109,31 +109,35 @@ function evaluateExposureRule(
   suggestedActions: SuggestedAction[],
 ) {
   const rule = policy.exposureRule
-  const sectorWeights = groupWeightByName(holdings, (holding) => holding.sector)
-  const breachedSectors = Object.entries(sectorWeights)
+  const exposureWeights = groupWeightByName(holdings, (holding) =>
+    getAllocationName(holding, rule.exposureType),
+  )
+
+  const breachedExposures = Object.entries(exposureWeights)
     .filter(([, weight]) => weight > rule.maxWeight)
     .sort(([, a], [, b]) => b - a)
 
-  breachedSectors.forEach(([sector, weight], index) => {
+  breachedExposures.forEach(([exposure, weight], index) => {
     violations.push({
       ruleId: rule.id,
-      message: `${sector} exceeds the maximum sector exposure.`,
+      message: `${exposure} exceeds the maximum ${rule.exposureType} exposure.`,
       actualWeight: weight,
       limitWeight: rule.maxWeight,
     })
+
     suggestedActions.push(
       createSuggestedAction(
         rule.id,
         index + 1,
         'sell',
         'high',
-        `Reduce ${sector} exposure to ${Math.round(rule.maxWeight * 100)}% or less of the portfolio.`,
+        `Reduce ${exposure} ${rule.exposureType} exposure to ${Math.round(rule.maxWeight * 100)}% or less of the portfolio.`,
       ),
     )
   })
 
-  return breachedSectors.length === 0
-    ? createPass(rule.id, 'All sector exposures are within policy limits.')
+  return breachedExposures.length === 0
+    ? createPass(rule.id, `All ${rule.exposureType} exposures are within policy limits.`)
     : undefined
 }
 
@@ -207,11 +211,8 @@ export function evaluateInvestmentPolicy(
     passedRules.push(rebalancingPass)
   }
 
-  passedRules.push(createPass('dividend-policy', 'Dividend preference is stored for policy context.'))
-  passedRules.push(createPass('investment-philosophy', 'Investment philosophy is stored for policy context.'))
-
   return {
-    portfolioId: portfolio.id ?? 'portfolio',
+    portfolioId: portfolio.id,
     policyId: investmentPolicy.id,
     passedRules,
     warnings,
