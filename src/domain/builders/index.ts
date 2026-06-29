@@ -2,6 +2,7 @@ export { buildInvestmentAnalysisReport } from './InvestmentAnalysisReportBuilder
 export type { InvestmentAnalysisReportBuilderInput } from './InvestmentAnalysisReportBuilder'
 export { buildInvestmentAnalysisSession } from './InvestmentAnalysisSessionBuilder'
 export type { InvestmentAnalysisSessionBuilderInput } from './InvestmentAnalysisSessionBuilder'
+export { buildInvestmentAnalysisSummary } from './InvestmentAnalysisSummaryBuilder'
 export { buildPortfolioAllocation } from './portfolioAllocationBuilder'
 export type { PortfolioAllocationInput } from './portfolioAllocationBuilder'
 export { buildPortfolioMetrics } from './portfolioMetricsBuilder'

@@ -129,6 +129,8 @@ It contains the generated timestamp, portfolio snapshot, allocation, metrics, op
 
 It connects the analyzed portfolio, investment policy and resulting `InvestmentAnalysisReport` with session metadata such as id, creation time and version. Session objects are created by `InvestmentAnalysisSessionBuilder`; persistence and UI behavior belong outside this type.
 
+`InvestmentAnalysisSummary` is a UI-friendly overview built from a session report. Dashboards can use it for high-level values, rule status, recommendations and insight counts without depending on the full `InvestmentAnalysisReport` shape.
+
 ### InvestmentAnalysisEngine
 
 `InvestmentAnalysisEngine` coordinates the full domain pipeline.
