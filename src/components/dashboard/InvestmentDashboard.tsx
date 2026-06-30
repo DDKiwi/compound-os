@@ -1,0 +1,106 @@
+import { Banknote, Gauge, Lightbulb, ListChecks, Percent, TrendingUp, WalletCards } from 'lucide-react'
+import type { InvestmentAnalysisSummary } from '../../domain'
+import { formatCurrencySEK, formatNumber, formatPercent } from '../../lib/formatters'
+import { MetricCard } from '../ui/MetricCard'
+import { SectionCard } from '../ui/Card'
+
+function formatOptionalCurrency(value: number | undefined) {
+  return value === undefined ? 'Saknas' : formatCurrencySEK(value)
+}
+
+function formatOptionalPercent(value: number | undefined) {
+  return value === undefined ? 'Saknas' : `${formatPercent(value * 100)}%`
+}
+
+export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSummary }) {
+  const ruleTone = summary.ruleScore >= 80 ? 'good' : summary.ruleScore >= 60 ? 'neutral' : 'bad'
+
+  return (
+    <div className="space-y-5">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <MetricCard
+          icon={WalletCards}
+          label="Totalt värde"
+          value={formatCurrencySEK(summary.totalValue)}
+          helper="Portföljvärde inklusive kassa"
+        />
+        <MetricCard
+          icon={Banknote}
+          label="Kassa"
+          value={formatCurrencySEK(summary.cash)}
+          helper={`${formatOptionalPercent(summary.cashReserveRatio)} av portfoljen`}
+        />
+        <MetricCard
+          icon={TrendingUp}
+          label="Investerat värde"
+          value={formatCurrencySEK(summary.investedValue)}
+          helper="Totalt värde minus kassa"
+        />
+        <MetricCard
+          icon={Gauge}
+          label="Regelpoäng"
+          value={`${summary.ruleScore}/100`}
+          helper={`${summary.passedRules} godkända, ${summary.warningRules} varningar, ${summary.failedRules} stopp`}
+          tone={ruleTone}
+        />
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-[1fr_0.8fr]">
+        <SectionCard title="Utdelningsöversikt" action="Summary">
+          <dl className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-lg border border-border-muted bg-surface p-4">
+              <dt className="text-xs text-muted-foreground">Årlig utdelning</dt>
+              <dd className="mt-2 text-lg font-semibold text-foreground">
+                {formatOptionalCurrency(summary.expectedAnnualDividend)}
+              </dd>
+            </div>
+            <div className="rounded-lg border border-border-muted bg-surface p-4">
+              <dt className="text-xs text-muted-foreground">Månad</dt>
+              <dd className="mt-2 text-lg font-semibold text-foreground">
+                {formatOptionalCurrency(summary.expectedMonthlyDividend)}
+              </dd>
+            </div>
+            <div className="rounded-lg border border-border-muted bg-surface p-4">
+              <dt className="text-xs text-muted-foreground">Direktavkastning</dt>
+              <dd className="mt-2 text-lg font-semibold text-foreground">
+                {formatOptionalPercent(summary.dividendYield)}
+              </dd>
+            </div>
+          </dl>
+        </SectionCard>
+
+        <SectionCard title="Beslutssignaler" action={summary.sessionId}>
+          <div className="grid gap-3">
+            <div className="flex items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
+              <div className="flex items-center gap-3">
+                <ListChecks size={17} className="text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Rekommendationer</span>
+              </div>
+              <span className="text-sm font-semibold text-foreground">
+                {formatNumber(summary.recommendationCount)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
+              <div className="flex items-center gap-3">
+                <Lightbulb size={17} className="text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Insikter</span>
+              </div>
+              <span className="text-sm font-semibold text-foreground">
+                {formatNumber(summary.insightCount)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
+              <div className="flex items-center gap-3">
+                <Percent size={17} className="text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Regelstatus</span>
+              </div>
+              <span className="text-sm font-semibold text-foreground">
+                {summary.passedRules}/{summary.passedRules + summary.warningRules + summary.failedRules}
+              </span>
+            </div>
+          </div>
+        </SectionCard>
+      </section>
+    </div>
+  )
+}
