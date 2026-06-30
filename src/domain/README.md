@@ -161,6 +161,8 @@ It reuses existing builders and accepts existing insights and recommendations wh
 
 It does not contain a completed simulation or result. `InvestmentSimulationEngine` is responsible for running simulations, while future scenario engines or comparison models can build on top of `InvestmentScenario`.
 
+`InvestmentScenarioInputBuilder` translates scenario actions into `InvestmentSimulationInput` objects so scenario planning can reuse the simulation pipeline.
+
 ### InvestmentSimulationResult
 
 Future simulation engines will return an `InvestmentSimulationResult` containing a raw numeric summary, forward-looking projections and the simulated portfolio.
