@@ -52,6 +52,12 @@ When callers need metadata around a single run, `InvestmentAnalysisEngine.create
 
 ## Responsibilities
 
+### Portfolio
+
+`Portfolio` contains holdings and `cashBalance`.
+
+`cashBalance` represents investable cash capital, separate from holdings.
+
 ### PortfolioSnapshot
 
 `PortfolioSnapshot` represents the high-level state of a portfolio at a point in time.

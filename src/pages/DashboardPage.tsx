@@ -9,6 +9,7 @@ import type { MockData, PageId } from '../types/investment'
 const demoPortfolio: Portfolio = {
   id: 'demo-portfolio',
   holdings: [],
+  cashBalance: 0,
   watchlist: [],
   journalEntries: [],
   dividendProjection: [],

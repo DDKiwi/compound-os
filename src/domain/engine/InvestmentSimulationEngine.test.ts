@@ -5,6 +5,7 @@ import { InvestmentSimulationEngine, simulateInvestment } from './InvestmentSimu
 const portfolio: Portfolio = {
   id: 'portfolio-1',
   holdings: [],
+  cashBalance: 0,
   watchlist: [],
   journalEntries: [],
   dividendProjection: [],

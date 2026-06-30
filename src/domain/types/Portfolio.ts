@@ -43,6 +43,7 @@ export type PortfolioStats = {
 export type Portfolio = {
   id: string
   holdings: Holding[]
+  readonly cashBalance: number
   watchlist: WatchItem[]
   journalEntries: JournalEntry[]
   dividendProjection: DividendPoint[]

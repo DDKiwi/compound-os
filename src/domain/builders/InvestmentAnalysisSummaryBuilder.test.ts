@@ -21,6 +21,7 @@ function createSession(): InvestmentAnalysisSession {
     portfolio: {
       id: 'portfolio-1',
       holdings: [],
+      cashBalance: 0,
       watchlist: [],
       journalEntries: [],
       dividendProjection: [],

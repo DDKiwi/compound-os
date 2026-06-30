@@ -33,6 +33,7 @@ function createPortfolio(holdings: Holding[]): Portfolio {
   return {
     id: "portfolio-1",
     holdings,
+    cashBalance: 0,
     watchlist: [],
     journalEntries: [],
     dividendProjection: [],
