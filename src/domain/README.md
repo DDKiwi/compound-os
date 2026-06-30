@@ -151,6 +151,8 @@ Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of
 
 `InvestmentSimulationStepProcessor` processes each timeline step. It is currently a no-op placeholder for future buy, sell, deposit and withdraw action logic.
 
+Simulation actions are delegated to `InvestmentSimulationActionHandler` implementations for buy, sell, deposit and withdraw, keeping step processing extensible without action-specific branching in the processor.
+
 `InvestmentSimulationProjection` describes forward-looking simulation values such as portfolio value, invested capital, expected profit and optional dividend income.
 
 ### RecommendationBuilder

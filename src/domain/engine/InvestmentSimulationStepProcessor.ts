@@ -1,10 +1,9 @@
 import type { InvestmentSimulationContext, InvestmentSimulationStep } from '../types'
+import { getInvestmentSimulationActionHandler } from '../simulation'
 
 export function processInvestmentSimulationStep(
   context: InvestmentSimulationContext,
   step: InvestmentSimulationStep,
 ): InvestmentSimulationContext {
-  void step
-
-  return context
+  return getInvestmentSimulationActionHandler(step.action.type).handle(context, step)
 }
