@@ -2,7 +2,10 @@ import { describe, expect, it } from 'vitest'
 import type { Recommendation } from '../types'
 import { buildTopRecommendation } from './TopRecommendationBuilder'
 
-function createRecommendation(id: string): Recommendation {
+function createRecommendation(
+  id: string,
+  overrides: Partial<Pick<Recommendation, 'confidence' | 'severity'>> = {},
+): Recommendation {
   return {
     id,
     ruleId: `${id}-rule`,
@@ -11,6 +14,7 @@ function createRecommendation(id: string): Recommendation {
     severity: 'warning',
     confidence: 'high',
     expectedImpact: `Impact for ${id}`,
+    ...overrides,
   }
 }
 
@@ -19,57 +23,57 @@ describe('buildTopRecommendation', () => {
     expect(buildTopRecommendation([])).toBeUndefined()
   })
 
-  it('falls back to the first recommendation when no ranking exists yet', () => {
-    const firstRecommendation = createRecommendation('first')
-    const secondRecommendation = createRecommendation('second')
+  it('selects higher severity before lower severity', () => {
+    const warningRecommendation = createRecommendation('warning', { severity: 'warning' })
+    const criticalRecommendation = createRecommendation('critical', { severity: 'critical' })
+
+    expect(buildTopRecommendation([warningRecommendation, criticalRecommendation])).toBe(
+      criticalRecommendation,
+    )
+  })
+
+  it('uses confidence when severity is tied', () => {
+    const mediumConfidenceRecommendation = createRecommendation('medium-confidence', {
+      confidence: 'medium',
+      severity: 'warning',
+    })
+    const highConfidenceRecommendation = createRecommendation('high-confidence', {
+      confidence: 'high',
+      severity: 'warning',
+    })
+
+    expect(
+      buildTopRecommendation([mediumConfidenceRecommendation, highConfidenceRecommendation]),
+    ).toBe(highConfidenceRecommendation)
+  })
+
+  it('keeps the first recommendation when priority is tied', () => {
+    const firstRecommendation = createRecommendation('first', {
+      confidence: 'medium',
+      severity: 'warning',
+    })
+    const secondRecommendation = createRecommendation('second', {
+      confidence: 'medium',
+      severity: 'warning',
+    })
 
     expect(buildTopRecommendation([firstRecommendation, secondRecommendation])).toBe(
       firstRecommendation,
     )
   })
 
-  it('uses priority when recommendations provide it', () => {
-    const lowPriorityRecommendation = {
-      ...createRecommendation('low'),
-      priority: 'low',
-    } as Recommendation
-    const highPriorityRecommendation = {
-      ...createRecommendation('high'),
-      priority: 'high',
-    } as Recommendation
+  it('does not let confidence outrank severity', () => {
+    const highConfidenceWarning = createRecommendation('warning', {
+      confidence: 'high',
+      severity: 'warning',
+    })
+    const lowConfidenceCritical = createRecommendation('critical', {
+      confidence: 'low',
+      severity: 'critical',
+    })
 
-    expect(buildTopRecommendation([lowPriorityRecommendation, highPriorityRecommendation])).toBe(
-      highPriorityRecommendation,
-    )
-  })
-
-  it('uses score when recommendations provide it', () => {
-    const lowScoreRecommendation = {
-      ...createRecommendation('low-score'),
-      score: 20,
-    } as Recommendation
-    const highScoreRecommendation = {
-      ...createRecommendation('high-score'),
-      score: 80,
-    } as Recommendation
-
-    expect(buildTopRecommendation([lowScoreRecommendation, highScoreRecommendation])).toBe(
-      highScoreRecommendation,
-    )
-  })
-
-  it('keeps the first recommendation when rankings are tied', () => {
-    const firstRecommendation = {
-      ...createRecommendation('first'),
-      score: 80,
-    } as Recommendation
-    const secondRecommendation = {
-      ...createRecommendation('second'),
-      score: 80,
-    } as Recommendation
-
-    expect(buildTopRecommendation([firstRecommendation, secondRecommendation])).toBe(
-      firstRecommendation,
+    expect(buildTopRecommendation([highConfidenceWarning, lowConfidenceCritical])).toBe(
+      lowConfidenceCritical,
     )
   })
 })

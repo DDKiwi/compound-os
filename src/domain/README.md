@@ -115,7 +115,7 @@ It does not invent recommendations on its own. Recommendations remain tied to ru
 
 `TopRecommendationBuilder` selects the recommendation that should be shown first in compact analysis summaries.
 
-It uses recommendation priority or score when those fields are available. Until recommendations expose explicit ranking data, it preserves the existing behavior by selecting the first recommendation.
+It ranks recommendations by existing fields: severity first, then confidence. If recommendations have the same priority, it preserves their original order.
 
 ### InsightBuilder
 

@@ -1,53 +1,41 @@
 import type { Recommendation } from '../types'
 
-type RecommendationWithRanking = Recommendation & {
-  readonly priority?: 'low' | 'medium' | 'high'
-  readonly score?: number
+const severityRank: Record<Recommendation['severity'], number> = {
+  info: 1,
+  warning: 2,
+  critical: 3,
 }
 
-const priorityRank: Record<NonNullable<RecommendationWithRanking['priority']>, number> = {
+const confidenceRank: Record<Recommendation['confidence'], number> = {
   low: 1,
   medium: 2,
   high: 3,
 }
 
-function getRecommendationRank(recommendation: Recommendation): number | undefined {
-  const rankedRecommendation = recommendation as RecommendationWithRanking
+function compareRecommendationPriority(
+  recommendation: Recommendation,
+  topRecommendation: Recommendation,
+): number {
+  const severityDifference =
+    severityRank[recommendation.severity] - severityRank[topRecommendation.severity]
 
-  if (rankedRecommendation.priority !== undefined) {
-    return priorityRank[rankedRecommendation.priority]
+  if (severityDifference !== 0) {
+    return severityDifference
   }
 
-  return rankedRecommendation.score
+  return confidenceRank[recommendation.confidence] - confidenceRank[topRecommendation.confidence]
 }
 
 export function buildTopRecommendation(
   recommendations: readonly Recommendation[],
 ): Recommendation | undefined {
-  const rankedRecommendations = recommendations
-    .map((recommendation, index) => ({
-      index,
-      rank: getRecommendationRank(recommendation),
-      recommendation,
-    }))
-    .filter((entry): entry is { index: number; rank: number; recommendation: Recommendation } => {
-      return entry.rank !== undefined
-    })
+  return recommendations.reduce<Recommendation | undefined>((topRecommendation, recommendation) => {
+    if (topRecommendation === undefined) {
+      return recommendation
+    }
 
-  if (rankedRecommendations.length > 0) {
-    return rankedRecommendations.reduce((topRecommendation, recommendation) => {
-      if (recommendation.rank > topRecommendation.rank) {
-        return recommendation
-      }
-
-      if (recommendation.rank === topRecommendation.rank && recommendation.index < topRecommendation.index) {
-        return recommendation
-      }
-
-      return topRecommendation
-    }).recommendation
-  }
-
-  // TODO: Replace this fallback when Recommendation exposes an explicit priority or score.
-  return recommendations[0]
+    return compareRecommendationPriority(recommendation, topRecommendation) > 0
+      ? recommendation
+      : topRecommendation
+  }, undefined)
 }
