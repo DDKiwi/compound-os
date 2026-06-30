@@ -65,4 +65,16 @@ describe('simulateInvestment', () => {
 
     expect(InvestmentSimulationEngine.simulate(input)).toEqual(simulateInvestment(input))
   })
+
+  it('iterates over the simulation timeline without changing the stub result', () => {
+    expect(simulateInvestment(createInput())).toEqual({
+      portfolio,
+      summary: {
+        expectedValue: 0,
+        investedCapital: 0,
+        expectedProfit: 0,
+      },
+      projections: [],
+    })
+  })
 })

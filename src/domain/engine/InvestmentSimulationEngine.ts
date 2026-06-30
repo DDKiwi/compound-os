@@ -1,15 +1,19 @@
 import type { InvestmentSimulationInput, InvestmentSimulationResult } from '../types'
 import { buildInvestmentSimulationTimeline } from '../builders/InvestmentSimulationTimelineBuilder'
+import { processInvestmentSimulationStep } from './InvestmentSimulationStepProcessor'
 
 export function simulateInvestment(
   input: InvestmentSimulationInput,
 ): InvestmentSimulationResult {
-  const timeline = buildInvestmentSimulationTimeline({
+  let context = {
     input,
     portfolio: input.portfolio,
-  })
+  }
+  const timeline = buildInvestmentSimulationTimeline(context)
 
-  void timeline
+  for (const step of timeline.steps) {
+    context = processInvestmentSimulationStep(context, step)
+  }
 
   return {
     portfolio: input.portfolio,

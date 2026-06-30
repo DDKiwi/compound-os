@@ -149,6 +149,8 @@ Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of
 
 `InvestmentSimulationTimelineBuilder` creates simulation timelines from an `InvestmentSimulationContext` so the simulation engine can remain thin and orchestration-focused.
 
+`InvestmentSimulationStepProcessor` processes each timeline step. It is currently a no-op placeholder for future buy, sell, deposit and withdraw action logic.
+
 `InvestmentSimulationProjection` describes forward-looking simulation values such as portfolio value, invested capital, expected profit and optional dividend income.
 
 ### RecommendationBuilder
