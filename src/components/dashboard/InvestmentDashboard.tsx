@@ -13,6 +13,7 @@ import { SectionCard } from '../ui/Card'
 
 export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSummary }) {
   const ruleTone = summary.ruleScore >= 80 ? 'good' : summary.ruleScore >= 60 ? 'neutral' : 'bad'
+  const topRecommendation = summary.topRecommendation
 
   return (
     <div className="space-y-5">
@@ -70,14 +71,19 @@ export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSu
 
         <SectionCard title="Beslutssignaler" action="Aktuell analys">
           <div className="grid gap-3">
-            <div className="flex items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
-              <div className="flex items-center gap-3">
+            <div className="rounded-lg border border-border-muted bg-surface p-4">
+              <div className="mb-3 flex items-center gap-3">
                 <ListChecks size={17} className="text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Rekommendationer</span>
+                <span className="text-sm text-muted-foreground">Prioriterad rekommendation</span>
               </div>
-              <span className="text-sm font-semibold text-foreground">
-                {formatNumber(summary.recommendationCount)}
-              </span>
+              {topRecommendation ? (
+                <div className="space-y-1">
+                  <h3 className="text-sm font-semibold text-foreground">{topRecommendation.title}</h3>
+                  <p className="text-sm text-muted-foreground">{topRecommendation.message}</p>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">Inga rekommendationer just nu.</p>
+              )}
             </div>
             <div className="flex items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
               <div className="flex items-center gap-3">
