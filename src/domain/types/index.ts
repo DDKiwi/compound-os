@@ -52,6 +52,10 @@ export type {
   InvestmentSimulationAction,
   InvestmentSimulationInput,
 } from './InvestmentSimulationInput'
+export type {
+  InvestmentSimulationResult,
+  InvestmentSimulationSummary,
+} from './InvestmentSimulationResult'
 export type { Insight } from './Insight'
 export type { InsightCategory } from './InsightCategory'
 export type { InsightImportance } from './InsightImportance'

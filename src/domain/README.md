@@ -133,6 +133,10 @@ It reuses existing builders and accepts existing insights and recommendations wh
 
 `InvestmentSimulationInput` describes a future what-if simulation request by combining a portfolio, policy and intended action such as buy, sell, deposit or withdraw.
 
+### InvestmentSimulationResult
+
+Future simulation engines will return an `InvestmentSimulationResult` containing the simulated portfolio and a raw numeric summary of expected value, invested capital, profit and optional dividend income.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
