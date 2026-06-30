@@ -161,7 +161,7 @@ Future simulation engines will return an `InvestmentSimulationResult` containing
 
 ### InvestmentSimulationEngine
 
-`InvestmentSimulationEngine` is the public domain API for future what-if simulations. The current skeleton returns a stubbed `InvestmentSimulationResult` without mutating the input portfolio or running simulation logic.
+`InvestmentSimulationEngine` is the public domain API for future what-if simulations. It processes simulation steps and returns an `InvestmentSimulationResult` with the simulated portfolio plus an initial projection for the final simulated state.
 
 Internally, simulation steps will work against an `InvestmentSimulationContext` that keeps simulation state separate from the public input and result contracts.
 
