@@ -78,7 +78,7 @@ describe('investment simulation action handlers', () => {
     expect(getInvestmentSimulationActionHandler(actionType)).toBeInstanceOf(Handler)
   })
 
-  it.each(['buy', 'sell', 'withdraw'] as const)(
+  it.each(['buy', 'sell'] as const)(
     'returns context unchanged for %s actions',
     (actionType) => {
       const action: InvestmentSimulationAction = {
@@ -123,6 +123,61 @@ describe('investment simulation action handlers', () => {
     }
     const context = createContext(action)
     const result = new DepositSimulationActionHandler().handle(context, createStep(action))
+
+    expect(result).not.toBe(context)
+    expect(result.portfolio).not.toBe(context.portfolio)
+  })
+
+  it('decreases cashBalance for withdraw actions', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'withdraw',
+      amount: 10_000,
+    }
+    const context = {
+      ...createContext(action),
+      portfolio: {
+        ...portfolio,
+        cashBalance: 25_000,
+      },
+    }
+    const result = new WithdrawSimulationActionHandler().handle(context, createStep(action))
+
+    expect(result.portfolio.cashBalance).toBe(15_000)
+  })
+
+  it('does not mutate the original portfolio for withdraw actions', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'withdraw',
+      amount: 10_000,
+    }
+    const startingPortfolio: Portfolio = {
+      ...portfolio,
+      cashBalance: 25_000,
+    }
+    const context = {
+      ...createContext(action),
+      portfolio: startingPortfolio,
+    }
+
+    new WithdrawSimulationActionHandler().handle(context, createStep(action))
+
+    expect(startingPortfolio.cashBalance).toBe(25_000)
+    expect(context.portfolio).toBe(startingPortfolio)
+  })
+
+  it('returns a new context and portfolio for withdraw actions', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'withdraw',
+      amount: 10_000,
+    }
+    const context = {
+      ...createContext(action),
+      portfolio: {
+        ...portfolio,
+        cashBalance: 25_000,
+      },
+    }
+    const result = new WithdrawSimulationActionHandler().handle(context, createStep(action))
 
     expect(result).not.toBe(context)
     expect(result.portfolio).not.toBe(context.portfolio)

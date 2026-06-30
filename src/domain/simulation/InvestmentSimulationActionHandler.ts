@@ -57,9 +57,17 @@ export class WithdrawSimulationActionHandler implements InvestmentSimulationActi
     context: InvestmentSimulationContext,
     step: InvestmentSimulationStep,
   ): InvestmentSimulationContext {
-    void step
+    if (step.action.type !== 'withdraw') {
+      return context
+    }
 
-    return context
+    return {
+      ...context,
+      portfolio: {
+        ...context.portfolio,
+        cashBalance: context.portfolio.cashBalance - (step.action.amount ?? 0),
+      },
+    }
   }
 }
 
