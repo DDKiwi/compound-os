@@ -48,6 +48,7 @@ The following major areas are complete enough to build on:
 * Scenario engine
 * Scenario result
 * First scenario card view model
+* First ScenarioCard component
 
 ---
 
