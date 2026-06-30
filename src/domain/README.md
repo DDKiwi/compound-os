@@ -137,6 +137,10 @@ It reuses existing builders and accepts existing insights and recommendations wh
 
 Future simulation engines will return an `InvestmentSimulationResult` containing the simulated portfolio and a raw numeric summary of expected value, invested capital, profit and optional dividend income.
 
+### InvestmentSimulationEngine
+
+`InvestmentSimulationEngine` is the public domain API for future what-if simulations. The current skeleton returns a stubbed `InvestmentSimulationResult` without mutating the input portfolio or running simulation logic.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
