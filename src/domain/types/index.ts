@@ -57,6 +57,8 @@ export type {
   InvestmentSimulationResult,
   InvestmentSimulationSummary,
 } from './InvestmentSimulationResult'
+export type { InvestmentSimulationStep } from './InvestmentSimulationStep'
+export type { InvestmentSimulationTimeline } from './InvestmentSimulationTimeline'
 export type { Insight } from './Insight'
 export type { InsightCategory } from './InsightCategory'
 export type { InsightImportance } from './InsightImportance'

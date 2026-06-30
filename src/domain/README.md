@@ -143,6 +143,10 @@ Future simulation engines will return an `InvestmentSimulationResult` containing
 
 Internally, simulation steps will work against an `InvestmentSimulationContext` that keeps simulation state separate from the public input and result contracts.
 
+`InvestmentSimulationStep` represents one dated action and the portfolio state for that point in a future simulation timeline.
+
+Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of simulation steps for future projections.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
