@@ -1,15 +1,15 @@
 import { Banknote, Gauge, Lightbulb, ListChecks, Percent, TrendingUp, WalletCards } from 'lucide-react'
 import type { InvestmentAnalysisSummary } from '../../domain'
-import { formatCurrencySEK, formatNumber, formatPercent } from '../../lib/formatters'
+import { formatCurrency, formatNumber, formatPercentage, formatScore } from '../../ui/formatters'
 import { MetricCard } from '../ui/MetricCard'
 import { SectionCard } from '../ui/Card'
 
 function formatOptionalCurrency(value: number | undefined) {
-  return value === undefined ? 'Saknas' : formatCurrencySEK(value)
+  return value === undefined ? 'Saknas' : formatCurrency(value)
 }
 
 function formatOptionalPercent(value: number | undefined) {
-  return value === undefined ? 'Saknas' : `${formatPercent(value * 100)}%`
+  return value === undefined ? 'Saknas' : formatPercentage(value)
 }
 
 export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSummary }) {
@@ -21,25 +21,25 @@ export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSu
         <MetricCard
           icon={WalletCards}
           label="Totalt värde"
-          value={formatCurrencySEK(summary.totalValue)}
+          value={formatCurrency(summary.totalValue)}
           helper="Portföljvärde inklusive kassa"
         />
         <MetricCard
           icon={Banknote}
           label="Kassa"
-          value={formatCurrencySEK(summary.cash)}
+          value={formatCurrency(summary.cash)}
           helper={`${formatOptionalPercent(summary.cashReserveRatio)} av portfoljen`}
         />
         <MetricCard
           icon={TrendingUp}
           label="Investerat värde"
-          value={formatCurrencySEK(summary.investedValue)}
+          value={formatCurrency(summary.investedValue)}
           helper="Totalt värde minus kassa"
         />
         <MetricCard
           icon={Gauge}
           label="Regelpoäng"
-          value={`${summary.ruleScore}/100`}
+          value={formatScore(summary.ruleScore)}
           helper={`${summary.passedRules} godkända, ${summary.warningRules} varningar, ${summary.failedRules} stopp`}
           tone={ruleTone}
         />
