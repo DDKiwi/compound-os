@@ -128,7 +128,73 @@ describe('portfolioEngine', () => {
     expect(portfolio.cashBalance).toBe(25_000)
   })
 
-  it.each(['buy', 'sell', 'dividend', 'fee', 'tax'] satisfies PortfolioTransactionType[])(
+  it('applies buy transactions to existing holdings immutably', () => {
+    const originalHolding: Holding = {
+      ...holdings[1],
+      quantity: 100,
+      averageCost: 2_000,
+      marketValue: 300_000,
+    }
+    const buyPortfolio: Portfolio = {
+      ...portfolio,
+      holdings: [holdings[0], originalHolding],
+    }
+
+    const result = applyPortfolioTransaction(buyPortfolio, {
+      id: 'buy-2026-06-30T12:00:00.000Z',
+      type: 'buy',
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      ticker: 'INVE B',
+      amount: 50_000,
+      quantity: 20,
+      price: 2_500,
+      currency: 'SEK',
+    })
+
+    expect(result.cashBalance).toBe(-25_000)
+    expect(result.holdings).toHaveLength(2)
+    expect(result.holdings[1]).toEqual({
+      ...originalHolding,
+      quantity: 120,
+      marketValue: 350_000,
+      averageCost: (100 * 2_000 + 20 * 2_500) / 120,
+    })
+    expect(result).not.toBe(buyPortfolio)
+    expect(result.holdings).not.toBe(buyPortfolio.holdings)
+    expect(result.holdings[1]).not.toBe(originalHolding)
+    expect(buyPortfolio.cashBalance).toBe(25_000)
+    expect(originalHolding).toEqual({
+      ...holdings[1],
+      quantity: 100,
+      averageCost: 2_000,
+      marketValue: 300_000,
+    })
+  })
+
+  it('does not create a holding when applying buy transactions to unknown tickers', () => {
+    const buyPortfolio: Portfolio = {
+      ...portfolio,
+      holdings: [holdings[0]],
+    }
+
+    const result = applyPortfolioTransaction(buyPortfolio, {
+      id: 'buy-2026-06-30T12:00:00.000Z',
+      type: 'buy',
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      ticker: 'UNKNOWN',
+      amount: 10_000,
+      quantity: 5,
+      price: 2_000,
+      currency: 'SEK',
+    })
+
+    expect(result.cashBalance).toBe(15_000)
+    expect(result.holdings).toEqual([holdings[0]])
+    expect(result.holdings).not.toBe(buyPortfolio.holdings)
+    expect(buyPortfolio.holdings).toEqual([holdings[0]])
+  })
+
+  it.each(['sell', 'dividend', 'fee', 'tax'] satisfies PortfolioTransactionType[])(
     'returns portfolio unchanged for unimplemented %s transactions',
     (type) => {
       const result = applyPortfolioTransaction(portfolio, {
