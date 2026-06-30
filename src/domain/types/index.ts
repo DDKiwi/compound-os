@@ -52,6 +52,10 @@ export type {
   InvestmentScenario,
   InvestmentScenarioAssumptions,
 } from './InvestmentScenario'
+export type {
+  InvestmentScenarioResult,
+  InvestmentScenarioSummary,
+} from './InvestmentScenarioResult'
 export type { InvestmentSimulationContext } from './InvestmentSimulationContext'
 export type {
   InvestmentSimulationAction,

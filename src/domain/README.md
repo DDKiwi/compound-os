@@ -165,6 +165,8 @@ It does not contain a completed simulation or result. `InvestmentSimulationEngin
 
 `InvestmentScenarioEngine` orchestrates scenario planning by building simulation inputs and running them through `InvestmentSimulationEngine`.
 
+`InvestmentScenarioResult` is the public result from `InvestmentScenarioEngine`. UI code should consume this scenario result instead of individual simulation results or projections.
+
 ### InvestmentSimulationResult
 
 Future simulation engines will return an `InvestmentSimulationResult` containing a raw numeric summary, forward-looking projections and the simulated portfolio.

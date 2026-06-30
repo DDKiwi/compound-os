@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as scenarioInputBuilder from '../builders/InvestmentScenarioInputBuilder'
-import type { InvestmentPolicy, InvestmentScenario, Portfolio } from '../types'
+import type {
+  InvestmentPolicy,
+  InvestmentScenario,
+  InvestmentSimulationResult,
+  Portfolio,
+} from '../types'
 import * as simulationEngine from './InvestmentSimulationEngine'
 import { runInvestmentScenario } from './InvestmentScenarioEngine'
 
@@ -58,11 +63,40 @@ describe('runInvestmentScenario', () => {
     vi.useRealTimers()
   })
 
-  it('returns one simulation result for a scenario with one action', () => {
+  it('returns an investment scenario result', () => {
     vi.useFakeTimers()
     vi.setSystemTime(date)
 
-    const results = runInvestmentScenario(
+    const scenario = createScenario([
+      {
+        type: 'deposit',
+        amount: 5_000,
+      },
+    ])
+
+    expect(runInvestmentScenario(scenario, portfolio, policy)).toMatchObject({
+      scenario,
+      simulations: expect.any(Array),
+      summary: expect.any(Object),
+    })
+  })
+
+  it('keeps the scenario on the result', () => {
+    const scenario = createScenario([
+      {
+        type: 'deposit',
+        amount: 5_000,
+      },
+    ])
+
+    expect(runInvestmentScenario(scenario, portfolio, policy).scenario).toBe(scenario)
+  })
+
+  it('includes all simulation results', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(date)
+
+    const result = runInvestmentScenario(
       createScenario([
         {
           type: 'deposit',
@@ -73,15 +107,29 @@ describe('runInvestmentScenario', () => {
       policy,
     )
 
-    expect(results).toHaveLength(1)
-    expect(results[0]?.portfolio.cashBalance).toBe(15_000)
+    expect(result.simulations).toHaveLength(1)
+    expect(result.simulations[0]?.portfolio.cashBalance).toBe(15_000)
   })
 
-  it('returns multiple simulation results for a scenario with multiple actions', () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(date)
+  it('creates summary from the last simulation result', () => {
+    const firstSimulation = createSimulationResult({
+      expectedValue: 1,
+      investedCapital: 2,
+      expectedProfit: 3,
+      expectedDividendIncome: 4,
+    })
+    const lastSimulation = createSimulationResult({
+      expectedValue: 10,
+      investedCapital: 20,
+      expectedProfit: 30,
+      expectedDividendIncome: 40,
+    })
+    const simulateInvestmentSpy = vi.spyOn(simulationEngine, 'simulateInvestment')
+    simulateInvestmentSpy
+      .mockReturnValueOnce(firstSimulation)
+      .mockReturnValueOnce(lastSimulation)
 
-    const results = runInvestmentScenario(
+    const result = runInvestmentScenario(
       createScenario([
         {
           type: 'deposit',
@@ -96,14 +144,19 @@ describe('runInvestmentScenario', () => {
       policy,
     )
 
-    expect(results).toHaveLength(2)
+    expect(result.summary).toEqual({
+      expectedValue: 10,
+      investedCapital: 20,
+      expectedProfit: 30,
+      expectedDividendIncome: 40,
+    })
   })
 
-  it('returns results in action order', () => {
+  it('preserves simulation order from action order', () => {
     vi.useFakeTimers()
     vi.setSystemTime(date)
 
-    const results = runInvestmentScenario(
+    const result = runInvestmentScenario(
       createScenario([
         {
           type: 'withdraw',
@@ -118,7 +171,11 @@ describe('runInvestmentScenario', () => {
       policy,
     )
 
-    expect(results.map((result) => result.portfolio.cashBalance)).toEqual([8_000, 15_000])
+    expect(result.simulations).toHaveLength(2)
+    expect(result.simulations.map((simulation) => simulation.portfolio.cashBalance)).toEqual([
+      8_000,
+      15_000,
+    ])
   })
 
   it('passes portfolio and policy through the scenario input builder flow', () => {
@@ -144,3 +201,13 @@ describe('runInvestmentScenario', () => {
     })
   })
 })
+
+function createSimulationResult(
+  summary: InvestmentSimulationResult['summary'],
+): InvestmentSimulationResult {
+  return {
+    portfolio,
+    summary,
+    projections: [],
+  }
+}
