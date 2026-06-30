@@ -105,6 +105,12 @@ Its responsibility is orchestration only: it calls each rule and collects the re
 
 It tracks totals for passed, warning and failed rules, calculates an overall score and exposes summary fields that higher layers can display without reimplementing scoring logic.
 
+### InvestmentHealth
+
+`InvestmentHealth` is a portfolio-level health concept built from an `InvestmentAnalysisSummary`.
+
+The first version uses the existing rule score as the health score and maps it to deterministic statuses: excellent, good, fair or poor.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
