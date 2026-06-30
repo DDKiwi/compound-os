@@ -163,6 +163,8 @@ It does not contain a completed simulation or result. `InvestmentSimulationEngin
 
 `InvestmentScenarioInputBuilder` translates scenario actions into `InvestmentSimulationInput` objects so scenario planning can reuse the simulation pipeline.
 
+`InvestmentScenarioEngine` orchestrates scenario planning by building simulation inputs and running them through `InvestmentSimulationEngine`.
+
 ### InvestmentSimulationResult
 
 Future simulation engines will return an `InvestmentSimulationResult` containing a raw numeric summary, forward-looking projections and the simulated portfolio.
