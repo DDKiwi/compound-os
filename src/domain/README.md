@@ -123,6 +123,12 @@ The first version uses the insight identifiers already produced by `InsightBuild
 
 The first version returns a valid impact object with unset change fields because recommendation-level simulation is not implemented yet.
 
+### InvestmentDecision
+
+`InvestmentDecision` composes the key decision inputs from an analysis: investment health, the top recommendation, diagnosis and optional impact.
+
+It reuses existing builders and accepts existing insights and recommendations when callers have the full analysis data available.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.

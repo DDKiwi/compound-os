@@ -1,5 +1,7 @@
 export { buildInvestmentAnalysisReport } from './InvestmentAnalysisReportBuilder'
 export type { InvestmentAnalysisReportBuilderInput } from './InvestmentAnalysisReportBuilder'
+export { buildInvestmentDecision } from './InvestmentDecisionBuilder'
+export type { InvestmentDecisionBuilderInput } from './InvestmentDecisionBuilder'
 export { buildInvestmentDiagnosis } from './InvestmentDiagnosisBuilder'
 export { buildInvestmentHealth } from './InvestmentHealthBuilder'
 export { buildInvestmentImpact } from './InvestmentImpactBuilder'
