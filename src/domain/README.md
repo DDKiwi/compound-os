@@ -173,7 +173,7 @@ Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of
 
 `InvestmentSimulationStepProcessor` processes each timeline step by invoking the matching simulation action handler.
 
-Simulation actions are delegated to `InvestmentSimulationActionHandler` implementations for buy, sell, deposit and withdraw, keeping step processing extensible without action-specific branching in the processor. Deposit and withdraw simulation actions now update `Portfolio.cashBalance` immutably by creating and applying `PortfolioTransaction` objects.
+Simulation actions are delegated to `InvestmentSimulationActionHandler` implementations for buy, sell, deposit and withdraw, keeping step processing extensible without action-specific branching in the processor. Simulation actions orchestrate domain components only: they translate steps into `PortfolioTransaction` objects through `PortfolioTransactionFactory` and apply them through `PortfolioEngine`, leaving portfolio state changes inside the portfolio transaction pipeline.
 
 `InvestmentSimulationProjection` describes forward-looking simulation values such as portfolio value, invested capital, expected profit and optional dividend income.
 

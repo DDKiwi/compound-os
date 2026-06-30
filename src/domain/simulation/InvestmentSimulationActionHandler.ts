@@ -3,7 +3,7 @@ import type {
   InvestmentSimulationContext,
   InvestmentSimulationStep,
 } from '../types'
-import { createPortfolioTransactionFromSimulationStep } from '../builders/PortfolioTransactionFactory'
+import * as portfolioTransactionFactory from '../builders/PortfolioTransactionFactory'
 import * as portfolioEngine from '../engine/portfolioEngine'
 
 export interface InvestmentSimulationActionHandler {
@@ -18,9 +18,16 @@ export class BuySimulationActionHandler implements InvestmentSimulationActionHan
     context: InvestmentSimulationContext,
     step: InvestmentSimulationStep,
   ): InvestmentSimulationContext {
-    void step
+    if (step.action.type !== 'buy') {
+      return context
+    }
 
-    return context
+    const transaction = portfolioTransactionFactory.createPortfolioTransactionFromSimulationStep(step)
+
+    return {
+      ...context,
+      portfolio: portfolioEngine.applyPortfolioTransaction(context.portfolio, transaction),
+    }
   }
 }
 
@@ -44,7 +51,7 @@ export class DepositSimulationActionHandler implements InvestmentSimulationActio
       return context
     }
 
-    const transaction = createPortfolioTransactionFromSimulationStep(step)
+    const transaction = portfolioTransactionFactory.createPortfolioTransactionFromSimulationStep(step)
 
     return {
       ...context,
@@ -62,7 +69,7 @@ export class WithdrawSimulationActionHandler implements InvestmentSimulationActi
       return context
     }
 
-    const transaction = createPortfolioTransactionFromSimulationStep(step)
+    const transaction = portfolioTransactionFactory.createPortfolioTransactionFromSimulationStep(step)
 
     return {
       ...context,
