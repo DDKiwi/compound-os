@@ -16,7 +16,7 @@ export function simulateInvestment(
   }
 
   return {
-    portfolio: input.portfolio,
+    portfolio: context.portfolio,
     summary: {
       expectedValue: 0,
       investedCapital: 0,

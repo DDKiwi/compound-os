@@ -51,7 +51,10 @@ function createInput(): InvestmentSimulationInput {
 describe('simulateInvestment', () => {
   it('can be called and returns an investment simulation result', () => {
     expect(simulateInvestment(createInput())).toEqual({
-      portfolio,
+      portfolio: {
+        ...portfolio,
+        cashBalance: 10_000,
+      },
       summary: {
         expectedValue: 0,
         investedCapital: 0,
@@ -69,7 +72,10 @@ describe('simulateInvestment', () => {
 
   it('iterates over the simulation timeline without changing the stub result', () => {
     expect(simulateInvestment(createInput())).toEqual({
-      portfolio,
+      portfolio: {
+        ...portfolio,
+        cashBalance: 10_000,
+      },
       summary: {
         expectedValue: 0,
         investedCapital: 0,
@@ -77,5 +83,12 @@ describe('simulateInvestment', () => {
       },
       projections: [],
     })
+  })
+
+  it('returns the updated portfolio instance from the simulation context', () => {
+    const result = simulateInvestment(createInput())
+
+    expect(result.portfolio).not.toBe(portfolio)
+    expect(result.portfolio.cashBalance).toBe(10_000)
   })
 })

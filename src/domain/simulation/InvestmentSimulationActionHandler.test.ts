@@ -78,7 +78,7 @@ describe('investment simulation action handlers', () => {
     expect(getInvestmentSimulationActionHandler(actionType)).toBeInstanceOf(Handler)
   })
 
-  it.each(['buy', 'sell', 'deposit', 'withdraw'] as const)(
+  it.each(['buy', 'sell', 'withdraw'] as const)(
     'returns context unchanged for %s actions',
     (actionType) => {
       const action: InvestmentSimulationAction = {
@@ -91,4 +91,40 @@ describe('investment simulation action handlers', () => {
       expect(getInvestmentSimulationActionHandler(actionType).handle(context, step)).toBe(context)
     },
   )
+
+  it('increases cashBalance for deposit actions', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'deposit',
+      amount: 10_000,
+    }
+    const context = createContext(action)
+    const result = new DepositSimulationActionHandler().handle(context, createStep(action))
+
+    expect(result.portfolio.cashBalance).toBe(10_000)
+  })
+
+  it('does not mutate the original portfolio for deposit actions', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'deposit',
+      amount: 10_000,
+    }
+    const context = createContext(action)
+
+    new DepositSimulationActionHandler().handle(context, createStep(action))
+
+    expect(portfolio.cashBalance).toBe(0)
+    expect(context.portfolio).toBe(portfolio)
+  })
+
+  it('returns a new context and portfolio for deposit actions', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'deposit',
+      amount: 10_000,
+    }
+    const context = createContext(action)
+    const result = new DepositSimulationActionHandler().handle(context, createStep(action))
+
+    expect(result).not.toBe(context)
+    expect(result.portfolio).not.toBe(context.portfolio)
+  })
 })

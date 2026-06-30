@@ -61,7 +61,10 @@ const step: InvestmentSimulationStep = {
 }
 
 describe('processInvestmentSimulationStep', () => {
-  it('returns the simulation context unchanged', () => {
-    expect(processInvestmentSimulationStep(context, step)).toBe(context)
+  it('returns the updated simulation context from the action handler', () => {
+    const result = processInvestmentSimulationStep(context, step)
+
+    expect(result).not.toBe(context)
+    expect(result.portfolio.cashBalance).toBe(10_000)
   })
 })

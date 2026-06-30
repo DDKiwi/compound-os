@@ -38,9 +38,17 @@ export class DepositSimulationActionHandler implements InvestmentSimulationActio
     context: InvestmentSimulationContext,
     step: InvestmentSimulationStep,
   ): InvestmentSimulationContext {
-    void step
+    if (step.action.type !== 'deposit') {
+      return context
+    }
 
-    return context
+    return {
+      ...context,
+      portfolio: {
+        ...context.portfolio,
+        cashBalance: context.portfolio.cashBalance + (step.action.amount ?? 0),
+      },
+    }
   }
 }
 
