@@ -28,6 +28,8 @@ export type Holding = {
   sector?: string
   accountType: AccountType
   marketValue: number
+  readonly quantity?: number
+  readonly averageCost?: number
   monthlyContribution: number
   assetType: AssetType
   classification: HoldingClassification

@@ -58,6 +58,12 @@ When callers need metadata around a single run, `InvestmentAnalysisEngine.create
 
 `cashBalance` represents investable cash capital, separate from holdings.
 
+### Holding
+
+`Holding` describes an investment position. `quantity` represents the number of shares or units held, and `averageCost` represents the average acquisition price. Both fields are optional while existing portfolio data is migrated.
+
+`marketValue` remains the current position value used by analysis logic.
+
 ### PortfolioTransaction
 
 `PortfolioTransaction` is the domain concept for portfolio cash and holding events such as deposits, withdrawals, buys, sells, dividends, fees and taxes.
