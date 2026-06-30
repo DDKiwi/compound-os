@@ -1,3 +1,4 @@
+import type { InvestmentSimulationProjection } from './InvestmentSimulationProjection'
 import type { Portfolio } from './Portfolio'
 
 export type InvestmentSimulationSummary = {
@@ -10,4 +11,5 @@ export type InvestmentSimulationSummary = {
 export type InvestmentSimulationResult = {
   readonly portfolio: Portfolio
   readonly summary: InvestmentSimulationSummary
+  readonly projections: readonly InvestmentSimulationProjection[]
 }

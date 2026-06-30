@@ -10,6 +10,7 @@ export function simulateInvestment(
       investedCapital: 0,
       expectedProfit: 0,
     },
+    projections: [],
   }
 }
 

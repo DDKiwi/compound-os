@@ -56,6 +56,7 @@ describe('simulateInvestment', () => {
         investedCapital: 0,
         expectedProfit: 0,
       },
+      projections: [],
     })
   })
 

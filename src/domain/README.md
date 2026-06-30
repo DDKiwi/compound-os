@@ -135,7 +135,7 @@ It reuses existing builders and accepts existing insights and recommendations wh
 
 ### InvestmentSimulationResult
 
-Future simulation engines will return an `InvestmentSimulationResult` containing the simulated portfolio and a raw numeric summary of expected value, invested capital, profit and optional dividend income.
+Future simulation engines will return an `InvestmentSimulationResult` containing a raw numeric summary, forward-looking projections and the simulated portfolio.
 
 ### InvestmentSimulationEngine
 
