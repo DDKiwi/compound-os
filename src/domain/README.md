@@ -111,6 +111,12 @@ It tracks totals for passed, warning and failed rules, calculates an overall sco
 
 It does not invent recommendations on its own. Recommendations remain tied to rule outcomes so the user can understand what triggered them and why they matter.
 
+### TopRecommendationBuilder
+
+`TopRecommendationBuilder` selects the recommendation that should be shown first in compact analysis summaries.
+
+It uses recommendation priority or score when those fields are available. Until recommendations expose explicit ranking data, it preserves the existing behavior by selecting the first recommendation.
+
 ### InsightBuilder
 
 `InsightBuilder` converts analysis facts into observations that help users understand the portfolio.

@@ -1,4 +1,5 @@
 import type { InvestmentAnalysisSession, InvestmentAnalysisSummary } from '../types'
+import { buildTopRecommendation } from './TopRecommendationBuilder'
 
 export function buildInvestmentAnalysisSummary(
   session: InvestmentAnalysisSession,
@@ -25,7 +26,7 @@ export function buildInvestmentAnalysisSummary(
     failedRules: report.summary.failed,
     warningRules: report.summary.warnings,
     recommendationCount: report.recommendations.length,
-    topRecommendation: report.recommendations[0],
+    topRecommendation: buildTopRecommendation(report.recommendations),
     insightCount: report.insights.length,
   }
 }

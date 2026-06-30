@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+Compound OS uses domain builders to assemble analysis outputs. `TopRecommendationBuilder` selects the recommendation that compact summaries should surface first.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:
