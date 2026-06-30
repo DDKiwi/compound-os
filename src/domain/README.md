@@ -147,6 +147,8 @@ Internally, simulation steps will work against an `InvestmentSimulationContext` 
 
 Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of simulation steps for future projections.
 
+`InvestmentSimulationTimelineBuilder` creates simulation timelines from an `InvestmentSimulationContext` so the simulation engine can remain thin and orchestration-focused.
+
 `InvestmentSimulationProjection` describes forward-looking simulation values such as portfolio value, invested capital, expected profit and optional dividend income.
 
 ### RecommendationBuilder
