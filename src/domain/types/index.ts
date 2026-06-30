@@ -48,6 +48,10 @@ export type { InvestmentDecision } from './InvestmentDecision'
 export type { InvestmentDiagnosis } from './InvestmentDiagnosis'
 export type { InvestmentHealth, InvestmentHealthStatus } from './InvestmentHealth'
 export type { InvestmentImpact } from './InvestmentImpact'
+export type {
+  InvestmentSimulationAction,
+  InvestmentSimulationInput,
+} from './InvestmentSimulationInput'
 export type { Insight } from './Insight'
 export type { InsightCategory } from './InsightCategory'
 export type { InsightImportance } from './InsightImportance'

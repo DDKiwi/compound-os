@@ -129,6 +129,10 @@ The first version returns a valid impact object with unset change fields because
 
 It reuses existing builders and accepts existing insights and recommendations when callers have the full analysis data available.
 
+### InvestmentSimulationInput
+
+`InvestmentSimulationInput` describes a future what-if simulation request by combining a portfolio, policy and intended action such as buy, sell, deposit or withdraw.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
