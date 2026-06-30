@@ -72,7 +72,7 @@ When callers need metadata around a single run, `InvestmentAnalysisEngine.create
 
 `PortfolioTransactionFactory` creates transactions from simulation steps and centralizes simulation transaction ids, dates, amounts, currency and origin metadata.
 
-Deposit and withdraw simulation actions are translated into `PortfolioTransaction` objects and applied to `Portfolio` through `PortfolioEngine`. `PortfolioEngine` is the central domain component for portfolio changes and will progressively implement every `PortfolioTransactionType`; buy transactions can now be applied to existing holdings, while sell, dividend, fee and tax are explicit no-ops until their domain behavior is added.
+Deposit and withdraw simulation actions are translated into `PortfolioTransaction` objects and applied to `Portfolio` through `PortfolioEngine`. `PortfolioEngine` orchestrates `PortfolioTransactionHandler` implementations for each transaction type; buy transactions can now be applied to existing holdings, while sell, dividend, fee and tax are explicit no-ops until their domain behavior is added.
 
 ### PortfolioSnapshot
 

@@ -1,5 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Holding, Portfolio, PortfolioTransactionType } from '../types'
+import {
+  BuyPortfolioTransactionHandler,
+  DepositPortfolioTransactionHandler,
+  WithdrawPortfolioTransactionHandler,
+} from './portfolio-transactions'
 import {
   applyPortfolioTransaction,
   getAllocationByAccountType,
@@ -78,6 +83,10 @@ const portfolio: Portfolio = {
 }
 
 describe('portfolioEngine', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('calculates total market value', () => {
     expect(getTotalMarketValue(holdings)).toBe(1_000_000)
   })
@@ -126,6 +135,24 @@ describe('portfolioEngine', () => {
     expect(result.cashBalance).toBe(15_000)
     expect(result).not.toBe(portfolio)
     expect(portfolio.cashBalance).toBe(25_000)
+  })
+
+  it('delegates portfolio transactions to the matching handler', () => {
+    const depositTransaction = {
+      id: 'deposit-2026-06-30T12:00:00.000Z',
+      type: 'deposit' as const,
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      amount: 10_000,
+    }
+    const depositApply = vi.spyOn(DepositPortfolioTransactionHandler.prototype, 'apply')
+    const withdrawApply = vi.spyOn(WithdrawPortfolioTransactionHandler.prototype, 'apply')
+    const buyApply = vi.spyOn(BuyPortfolioTransactionHandler.prototype, 'apply')
+
+    applyPortfolioTransaction(portfolio, depositTransaction)
+
+    expect(depositApply).toHaveBeenCalledWith(portfolio, depositTransaction)
+    expect(withdrawApply).not.toHaveBeenCalled()
+    expect(buyApply).not.toHaveBeenCalled()
   })
 
   it('applies buy transactions to existing holdings immutably', () => {

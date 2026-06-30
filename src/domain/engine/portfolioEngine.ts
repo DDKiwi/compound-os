@@ -6,8 +6,16 @@ import type {
   Portfolio,
   PortfolioStats,
   PortfolioTransaction,
+  PortfolioTransactionType,
 } from '../types'
 import { investmentGoal } from '../config/investmentRules'
+import {
+  BuyPortfolioTransactionHandler,
+  DepositPortfolioTransactionHandler,
+  NoopPortfolioTransactionHandler,
+  type PortfolioTransactionHandler,
+  WithdrawPortfolioTransactionHandler,
+} from './portfolio-transactions'
 
 type AllocationItem<TName extends string> = {
   name: TName
@@ -125,61 +133,23 @@ export function getPortfolioValue(holdings: Holding[]) {
   return getTotalMarketValue(holdings)
 }
 
+const noopPortfolioTransactionHandler = new NoopPortfolioTransactionHandler()
+
+const portfolioTransactionHandlers: Record<PortfolioTransactionType, PortfolioTransactionHandler> = {
+  deposit: new DepositPortfolioTransactionHandler(),
+  withdraw: new WithdrawPortfolioTransactionHandler(),
+  buy: new BuyPortfolioTransactionHandler(),
+  sell: noopPortfolioTransactionHandler,
+  dividend: noopPortfolioTransactionHandler,
+  fee: noopPortfolioTransactionHandler,
+  tax: noopPortfolioTransactionHandler,
+}
+
 export function applyPortfolioTransaction(
   portfolio: Portfolio,
   transaction: PortfolioTransaction,
 ): Portfolio {
-  switch (transaction.type) {
-    case 'deposit':
-      return {
-        ...portfolio,
-        cashBalance: portfolio.cashBalance + transaction.amount,
-      }
-    case 'withdraw':
-      return {
-        ...portfolio,
-        cashBalance: portfolio.cashBalance - transaction.amount,
-      }
-    case 'buy': {
-      const cashBalance = portfolio.cashBalance - transaction.amount
-
-      return {
-        ...portfolio,
-        cashBalance,
-        holdings: portfolio.holdings.map((holding) => {
-          if (holding.ticker !== transaction.ticker) {
-            return holding
-          }
-
-          const previousQuantity = holding.quantity ?? 0
-          const previousAverageCost = holding.averageCost ?? 0
-          const buyQuantity = transaction.quantity ?? 0
-          const buyPrice = transaction.price ?? 0
-          const newQuantity = previousQuantity + buyQuantity
-          const newAverageCost =
-            newQuantity > 0
-              ? (previousQuantity * previousAverageCost + buyQuantity * buyPrice) / newQuantity
-              : previousAverageCost
-
-          return {
-            ...holding,
-            quantity: newQuantity,
-            marketValue: holding.marketValue + transaction.amount,
-            averageCost: newAverageCost,
-          }
-        }),
-      }
-    }
-    case 'sell':
-    case 'dividend':
-    case 'fee':
-    case 'tax':
-      return portfolio
-    default: {
-      const exhaustiveCheck: never = transaction.type
-      return exhaustiveCheck
-    }
-  }
+  return portfolioTransactionHandlers[transaction.type].apply(portfolio, transaction)
 }
 
 export function getExpectedAnnualDividend(holding: Holding) {
