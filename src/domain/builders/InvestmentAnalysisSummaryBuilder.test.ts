@@ -118,6 +118,11 @@ describe('buildInvestmentAnalysisSummary', () => {
       expectedMonthlyDividend: 300,
       dividendYield: 0.036,
       ruleScore: 62.5,
+      health: {
+        score: 62.5,
+        label: 'Fair',
+        status: 'fair',
+      },
       passedRules: 2,
       failedRules: 1,
       warningRules: 1,

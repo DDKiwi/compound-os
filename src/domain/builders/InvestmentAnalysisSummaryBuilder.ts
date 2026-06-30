@@ -1,4 +1,5 @@
 import type { InvestmentAnalysisSession, InvestmentAnalysisSummary } from '../types'
+import { buildInvestmentHealth } from './InvestmentHealthBuilder'
 import { buildTopRecommendation } from './TopRecommendationBuilder'
 
 export function buildInvestmentAnalysisSummary(
@@ -7,7 +8,7 @@ export function buildInvestmentAnalysisSummary(
   const { report } = session
   const expectedAnnualDividend = report.dividendForecast?.totalAmount
 
-  return {
+  const summary: Omit<InvestmentAnalysisSummary, 'health'> = {
     sessionId: session.id,
     generatedAt: report.generatedAt,
     totalValue: report.snapshot.totalValue,
@@ -28,5 +29,10 @@ export function buildInvestmentAnalysisSummary(
     recommendationCount: report.recommendations.length,
     topRecommendation: buildTopRecommendation(report.recommendations),
     insightCount: report.insights.length,
+  }
+
+  return {
+    ...summary,
+    health: buildInvestmentHealth(summary),
   }
 }

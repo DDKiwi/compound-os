@@ -2,20 +2,9 @@ import { describe, expect, it } from 'vitest'
 import type { InvestmentAnalysisSummary } from '../types'
 import { buildInvestmentHealth } from './InvestmentHealthBuilder'
 
-function createSummary(ruleScore: number): InvestmentAnalysisSummary {
+function createSummary(ruleScore: number): Pick<InvestmentAnalysisSummary, 'ruleScore'> {
   return {
-    sessionId: 'session-1',
-    generatedAt: new Date('2026-06-30T12:00:00.000Z'),
-    totalValue: 100_000,
-    cash: 10_000,
-    investedValue: 90_000,
-    cashReserveRatio: 0.1,
     ruleScore,
-    passedRules: 4,
-    failedRules: 0,
-    warningRules: 0,
-    recommendationCount: 0,
-    insightCount: 0,
   }
 }
 

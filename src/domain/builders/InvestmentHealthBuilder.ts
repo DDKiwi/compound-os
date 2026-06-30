@@ -1,6 +1,8 @@
 import type { InvestmentAnalysisSummary, InvestmentHealth } from '../types'
 
-export function buildInvestmentHealth(summary: InvestmentAnalysisSummary): InvestmentHealth {
+export function buildInvestmentHealth(
+  summary: Pick<InvestmentAnalysisSummary, 'ruleScore'>,
+): InvestmentHealth {
   const score = summary.ruleScore
 
   if (score >= 90) {

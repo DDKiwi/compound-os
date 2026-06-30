@@ -1,3 +1,4 @@
+import type { InvestmentHealth } from './InvestmentHealth'
 import type { Recommendation } from './Recommendation'
 
 export type InvestmentAnalysisSummary = {
@@ -11,6 +12,7 @@ export type InvestmentAnalysisSummary = {
   readonly expectedMonthlyDividend?: number
   readonly dividendYield?: number
   readonly ruleScore: number
+  readonly health: InvestmentHealth
   readonly passedRules: number
   readonly failedRules: number
   readonly warningRules: number
