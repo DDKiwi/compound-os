@@ -53,6 +53,7 @@ export type {
   InvestmentSimulationAction,
   InvestmentSimulationInput,
 } from './InvestmentSimulationInput'
+export type { InvestmentSimulationProjection } from './InvestmentSimulationProjection'
 export type {
   InvestmentSimulationResult,
   InvestmentSimulationSummary,

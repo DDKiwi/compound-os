@@ -147,6 +147,8 @@ Internally, simulation steps will work against an `InvestmentSimulationContext` 
 
 Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of simulation steps for future projections.
 
+`InvestmentSimulationProjection` describes forward-looking simulation values such as portfolio value, invested capital, expected profit and optional dividend income.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
