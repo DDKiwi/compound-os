@@ -117,6 +117,12 @@ The first version uses the existing rule score as the health score and maps it t
 
 The first version uses the insight identifiers already produced by `InsightBuilder` and does not introduce a new classification model.
 
+### InvestmentImpact
+
+`InvestmentImpact` describes the expected portfolio effect of a recommendation.
+
+The first version returns a valid impact object with unset change fields because recommendation-level simulation is not implemented yet.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.

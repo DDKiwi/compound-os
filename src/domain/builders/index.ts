@@ -2,6 +2,7 @@ export { buildInvestmentAnalysisReport } from './InvestmentAnalysisReportBuilder
 export type { InvestmentAnalysisReportBuilderInput } from './InvestmentAnalysisReportBuilder'
 export { buildInvestmentDiagnosis } from './InvestmentDiagnosisBuilder'
 export { buildInvestmentHealth } from './InvestmentHealthBuilder'
+export { buildInvestmentImpact } from './InvestmentImpactBuilder'
 export { buildInvestmentAnalysisSession } from './InvestmentAnalysisSessionBuilder'
 export type { InvestmentAnalysisSessionBuilderInput } from './InvestmentAnalysisSessionBuilder'
 export { buildInvestmentAnalysisSummary } from './InvestmentAnalysisSummaryBuilder'
