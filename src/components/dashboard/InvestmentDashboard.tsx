@@ -68,7 +68,7 @@ export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSu
           </dl>
         </SectionCard>
 
-        <SectionCard title="Beslutssignaler" action={summary.sessionId}>
+        <SectionCard title="Beslutssignaler" action="Aktuell analys">
           <div className="grid gap-3">
             <div className="flex items-center justify-between rounded-lg border border-border-muted bg-surface p-4">
               <div className="flex items-center gap-3">
