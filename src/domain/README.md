@@ -111,6 +111,12 @@ It tracks totals for passed, warning and failed rules, calculates an overall sco
 
 The first version uses the existing rule score as the health score and maps it to deterministic statuses: excellent, good, fair or poor.
 
+### InvestmentDiagnosis
+
+`InvestmentDiagnosis` summarizes why the portfolio looks the way it does by grouping existing insights into strengths and weaknesses, while carrying existing recommendations as opportunities.
+
+The first version uses the insight identifiers already produced by `InsightBuilder` and does not introduce a new classification model.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.
