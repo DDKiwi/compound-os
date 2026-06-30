@@ -141,6 +141,8 @@ Future simulation engines will return an `InvestmentSimulationResult` containing
 
 `InvestmentSimulationEngine` is the public domain API for future what-if simulations. The current skeleton returns a stubbed `InvestmentSimulationResult` without mutating the input portfolio or running simulation logic.
 
+Internally, simulation steps will work against an `InvestmentSimulationContext` that keeps simulation state separate from the public input and result contracts.
+
 ### RecommendationBuilder
 
 `RecommendationBuilder` converts rule results into actionable recommendations when the corresponding rule provides recommendation logic.

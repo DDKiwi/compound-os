@@ -48,6 +48,7 @@ export type { InvestmentDecision } from './InvestmentDecision'
 export type { InvestmentDiagnosis } from './InvestmentDiagnosis'
 export type { InvestmentHealth, InvestmentHealthStatus } from './InvestmentHealth'
 export type { InvestmentImpact } from './InvestmentImpact'
+export type { InvestmentSimulationContext } from './InvestmentSimulationContext'
 export type {
   InvestmentSimulationAction,
   InvestmentSimulationInput,
