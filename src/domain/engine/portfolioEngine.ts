@@ -13,6 +13,7 @@ import {
   BuyPortfolioTransactionHandler,
   DepositPortfolioTransactionHandler,
   NoopPortfolioTransactionHandler,
+  SellPortfolioTransactionHandler,
   type PortfolioTransactionHandler,
   WithdrawPortfolioTransactionHandler,
 } from './portfolio-transactions'
@@ -139,7 +140,7 @@ const portfolioTransactionHandlers: Record<PortfolioTransactionType, PortfolioTr
   deposit: new DepositPortfolioTransactionHandler(),
   withdraw: new WithdrawPortfolioTransactionHandler(),
   buy: new BuyPortfolioTransactionHandler(),
-  sell: noopPortfolioTransactionHandler,
+  sell: new SellPortfolioTransactionHandler(),
   dividend: noopPortfolioTransactionHandler,
   fee: noopPortfolioTransactionHandler,
   tax: noopPortfolioTransactionHandler,

@@ -2,4 +2,5 @@ export { BuyPortfolioTransactionHandler } from './BuyPortfolioTransactionHandler
 export { DepositPortfolioTransactionHandler } from './DepositPortfolioTransactionHandler'
 export { NoopPortfolioTransactionHandler } from './NoopPortfolioTransactionHandler'
 export type { PortfolioTransactionHandler } from './PortfolioTransactionHandler'
+export { SellPortfolioTransactionHandler } from './SellPortfolioTransactionHandler'
 export { WithdrawPortfolioTransactionHandler } from './WithdrawPortfolioTransactionHandler'

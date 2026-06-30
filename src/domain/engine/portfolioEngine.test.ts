@@ -3,6 +3,7 @@ import type { Holding, Portfolio, PortfolioTransactionType } from '../types'
 import {
   BuyPortfolioTransactionHandler,
   DepositPortfolioTransactionHandler,
+  SellPortfolioTransactionHandler,
   WithdrawPortfolioTransactionHandler,
 } from './portfolio-transactions'
 import {
@@ -147,12 +148,14 @@ describe('portfolioEngine', () => {
     const depositApply = vi.spyOn(DepositPortfolioTransactionHandler.prototype, 'apply')
     const withdrawApply = vi.spyOn(WithdrawPortfolioTransactionHandler.prototype, 'apply')
     const buyApply = vi.spyOn(BuyPortfolioTransactionHandler.prototype, 'apply')
+    const sellApply = vi.spyOn(SellPortfolioTransactionHandler.prototype, 'apply')
 
     applyPortfolioTransaction(portfolio, depositTransaction)
 
     expect(depositApply).toHaveBeenCalledWith(portfolio, depositTransaction)
     expect(withdrawApply).not.toHaveBeenCalled()
     expect(buyApply).not.toHaveBeenCalled()
+    expect(sellApply).not.toHaveBeenCalled()
   })
 
   it('applies buy transactions to existing holdings immutably', () => {
@@ -221,7 +224,73 @@ describe('portfolioEngine', () => {
     expect(buyPortfolio.holdings).toEqual([holdings[0]])
   })
 
-  it.each(['sell', 'dividend', 'fee', 'tax'] satisfies PortfolioTransactionType[])(
+  it('applies sell transactions to existing holdings immutably', () => {
+    const originalHolding: Holding = {
+      ...holdings[1],
+      quantity: 100,
+      averageCost: 2_000,
+      marketValue: 300_000,
+    }
+    const sellPortfolio: Portfolio = {
+      ...portfolio,
+      holdings: [holdings[0], originalHolding],
+    }
+
+    const result = applyPortfolioTransaction(sellPortfolio, {
+      id: 'sell-2026-06-30T12:00:00.000Z',
+      type: 'sell',
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      ticker: 'INVE B',
+      amount: 50_000,
+      quantity: 20,
+      price: 2_500,
+      currency: 'SEK',
+    })
+
+    expect(result.cashBalance).toBe(75_000)
+    expect(result.holdings).toHaveLength(2)
+    expect(result.holdings[1]).toEqual({
+      ...originalHolding,
+      quantity: 80,
+      marketValue: 250_000,
+      averageCost: 2_000,
+    })
+    expect(result).not.toBe(sellPortfolio)
+    expect(result.holdings).not.toBe(sellPortfolio.holdings)
+    expect(result.holdings[1]).not.toBe(originalHolding)
+    expect(sellPortfolio.cashBalance).toBe(25_000)
+    expect(originalHolding).toEqual({
+      ...holdings[1],
+      quantity: 100,
+      averageCost: 2_000,
+      marketValue: 300_000,
+    })
+  })
+
+  it('does not create a holding when applying sell transactions to unknown tickers', () => {
+    const sellPortfolio: Portfolio = {
+      ...portfolio,
+      holdings: [holdings[0]],
+    }
+
+    const result = applyPortfolioTransaction(sellPortfolio, {
+      id: 'sell-2026-06-30T12:00:00.000Z',
+      type: 'sell',
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      ticker: 'UNKNOWN',
+      amount: 10_000,
+      quantity: 5,
+      price: 2_000,
+      currency: 'SEK',
+    })
+
+    expect(result.cashBalance).toBe(35_000)
+    expect(result.holdings).toEqual([holdings[0]])
+    expect(result.holdings).not.toBe(sellPortfolio.holdings)
+    expect(sellPortfolio.holdings).toEqual([holdings[0]])
+  })
+
+  it.each(['dividend', 'fee', 'tax'] satisfies PortfolioTransactionType[])(
     'returns portfolio unchanged for unimplemented %s transactions',
     (type) => {
       const result = applyPortfolioTransaction(portfolio, {
