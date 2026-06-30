@@ -1,5 +1,5 @@
-export { formatCurrency } from './currency'
+export { formatCurrency, formatOptionalCurrency } from './currency'
 export { formatDate } from './date'
 export { formatNumber } from './number'
-export { formatPercentage } from './percentage'
-export { formatScore } from './score'
+export { formatOptionalPercentage, formatPercentage } from './percentage'
+export { formatRuleStatus, formatScore } from './score'

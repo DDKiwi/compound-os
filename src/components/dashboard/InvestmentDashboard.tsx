@@ -1,16 +1,15 @@
 import { Banknote, Gauge, Lightbulb, ListChecks, Percent, TrendingUp, WalletCards } from 'lucide-react'
 import type { InvestmentAnalysisSummary } from '../../domain'
-import { formatCurrency, formatNumber, formatPercentage, formatScore } from '../../ui/formatters'
+import {
+  formatCurrency,
+  formatNumber,
+  formatOptionalCurrency,
+  formatOptionalPercentage,
+  formatRuleStatus,
+  formatScore,
+} from '../../ui/formatters'
 import { MetricCard } from '../ui/MetricCard'
 import { SectionCard } from '../ui/Card'
-
-function formatOptionalCurrency(value: number | undefined) {
-  return value === undefined ? 'Saknas' : formatCurrency(value)
-}
-
-function formatOptionalPercent(value: number | undefined) {
-  return value === undefined ? 'Saknas' : formatPercentage(value)
-}
 
 export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSummary }) {
   const ruleTone = summary.ruleScore >= 80 ? 'good' : summary.ruleScore >= 60 ? 'neutral' : 'bad'
@@ -28,7 +27,7 @@ export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSu
           icon={Banknote}
           label="Kassa"
           value={formatCurrency(summary.cash)}
-          helper={`${formatOptionalPercent(summary.cashReserveRatio)} av portfoljen`}
+          helper={`${formatOptionalPercentage(summary.cashReserveRatio)} av portfoljen`}
         />
         <MetricCard
           icon={TrendingUp}
@@ -40,7 +39,7 @@ export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSu
           icon={Gauge}
           label="Regelpoäng"
           value={formatScore(summary.ruleScore)}
-          helper={`${summary.passedRules} godkända, ${summary.warningRules} varningar, ${summary.failedRules} stopp`}
+          helper={formatRuleStatus(summary.passedRules, summary.warningRules, summary.failedRules)}
           tone={ruleTone}
         />
       </section>
@@ -63,7 +62,7 @@ export function InvestmentDashboard({ summary }: { summary: InvestmentAnalysisSu
             <div className="rounded-lg border border-border-muted bg-surface p-4">
               <dt className="text-xs text-muted-foreground">Direktavkastning</dt>
               <dd className="mt-2 text-lg font-semibold text-foreground">
-                {formatOptionalPercent(summary.dividendYield)}
+                {formatOptionalPercentage(summary.dividendYield)}
               </dd>
             </div>
           </dl>

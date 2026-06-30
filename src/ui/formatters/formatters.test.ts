@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { formatCurrency, formatDate, formatNumber, formatPercentage, formatScore } from '.'
+import {
+  formatCurrency,
+  formatDate,
+  formatNumber,
+  formatOptionalCurrency,
+  formatOptionalPercentage,
+  formatPercentage,
+  formatRuleStatus,
+  formatScore,
+} from '.'
 
 describe('ui formatters', () => {
   it('formats SEK currency for Swedish presentation', () => {
@@ -11,8 +20,17 @@ describe('ui formatters', () => {
     expect(formatPercentage(0.5)).toBe('50 %')
   })
 
+  it('formats missing optional values with dashboard fallback text', () => {
+    expect(formatOptionalCurrency(undefined)).toBe('Saknas')
+    expect(formatOptionalPercentage(undefined)).toBe('Saknas')
+  })
+
   it('formats scores as whole points out of 100', () => {
     expect(formatScore(66.7)).toBe('67/100')
+  })
+
+  it('formats rule status summaries', () => {
+    expect(formatRuleStatus(7, 2, 1)).toBe('7 godkända, 2 varningar, 1 stopp')
   })
 
   it('formats plain numbers with Swedish grouping', () => {

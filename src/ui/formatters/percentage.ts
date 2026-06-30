@@ -11,3 +11,7 @@ export function formatPercentage(value: number): string {
     }).format(value),
   )
 }
+
+export function formatOptionalPercentage(value: number | undefined): string {
+  return value === undefined ? 'Saknas' : formatPercentage(value)
+}

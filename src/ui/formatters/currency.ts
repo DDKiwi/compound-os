@@ -11,3 +11,7 @@ export function formatCurrency(value: number): string {
     }).format(value),
   )
 }
+
+export function formatOptionalCurrency(value: number | undefined): string {
+  return value === undefined ? 'Saknas' : formatCurrency(value)
+}
