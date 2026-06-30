@@ -16,6 +16,7 @@ export {
   getPortfolioStats,
   getPortfolioValue,
   getPortfolioWeight,
+  applyPortfolioTransaction,
   getTotalInvestedCapital,
   getTotalMarketValue,
   getWatchlistHoldings,

@@ -62,7 +62,7 @@ When callers need metadata around a single run, `InvestmentAnalysisEngine.create
 
 `PortfolioTransaction` is the domain concept for portfolio cash and holding events such as deposits, withdrawals, buys, sells, dividends, fees and taxes.
 
-Future simulation actions can be translated into transactions. Transactions are not applied to `Portfolio` in this step.
+Deposit and withdraw simulation actions are translated into `PortfolioTransaction` objects and applied to `Portfolio` through the domain engine. Buy and sell actions are prepared to follow the same transaction model later.
 
 ### PortfolioSnapshot
 
@@ -163,7 +163,7 @@ Simulations can be expressed as an `InvestmentSimulationTimeline`, a sequence of
 
 `InvestmentSimulationStepProcessor` processes each timeline step by invoking the matching simulation action handler.
 
-Simulation actions are delegated to `InvestmentSimulationActionHandler` implementations for buy, sell, deposit and withdraw, keeping step processing extensible without action-specific branching in the processor. Deposit simulation actions increase `Portfolio.cashBalance` immutably, while withdraw simulation actions decrease it immutably.
+Simulation actions are delegated to `InvestmentSimulationActionHandler` implementations for buy, sell, deposit and withdraw, keeping step processing extensible without action-specific branching in the processor. Deposit and withdraw simulation actions now update `Portfolio.cashBalance` immutably by creating and applying `PortfolioTransaction` objects.
 
 `InvestmentSimulationProjection` describes forward-looking simulation values such as portfolio value, invested capital, expected profit and optional dividend income.
 

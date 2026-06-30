@@ -3,7 +3,9 @@ import type {
   CountryExposure,
   Holding,
   HoldingClassification,
+  Portfolio,
   PortfolioStats,
+  PortfolioTransaction,
 } from '../types'
 import { investmentGoal } from '../config/investmentRules'
 
@@ -121,6 +123,27 @@ export function getActiveHoldings(holdings: Holding[]) {
 
 export function getPortfolioValue(holdings: Holding[]) {
   return getTotalMarketValue(holdings)
+}
+
+export function applyPortfolioTransaction(
+  portfolio: Portfolio,
+  transaction: PortfolioTransaction,
+): Portfolio {
+  if (transaction.type === 'deposit') {
+    return {
+      ...portfolio,
+      cashBalance: portfolio.cashBalance + transaction.amount,
+    }
+  }
+
+  if (transaction.type === 'withdraw') {
+    return {
+      ...portfolio,
+      cashBalance: portfolio.cashBalance - transaction.amount,
+    }
+  }
+
+  return portfolio
 }
 
 export function getExpectedAnnualDividend(holding: Holding) {

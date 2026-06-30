@@ -2,7 +2,9 @@ import type {
   InvestmentSimulationAction,
   InvestmentSimulationContext,
   InvestmentSimulationStep,
+  PortfolioTransaction,
 } from '../types'
+import * as portfolioEngine from '../engine/portfolioEngine'
 
 export interface InvestmentSimulationActionHandler {
   handle(
@@ -42,12 +44,16 @@ export class DepositSimulationActionHandler implements InvestmentSimulationActio
       return context
     }
 
+    const transaction: PortfolioTransaction = {
+      id: `${step.action.type}-${step.date.toISOString()}`,
+      type: 'deposit',
+      date: step.date,
+      amount: step.action.amount ?? 0,
+    }
+
     return {
       ...context,
-      portfolio: {
-        ...context.portfolio,
-        cashBalance: context.portfolio.cashBalance + (step.action.amount ?? 0),
-      },
+      portfolio: portfolioEngine.applyPortfolioTransaction(context.portfolio, transaction),
     }
   }
 }
@@ -61,12 +67,16 @@ export class WithdrawSimulationActionHandler implements InvestmentSimulationActi
       return context
     }
 
+    const transaction: PortfolioTransaction = {
+      id: `${step.action.type}-${step.date.toISOString()}`,
+      type: 'withdraw',
+      date: step.date,
+      amount: step.action.amount ?? 0,
+    }
+
     return {
       ...context,
-      portfolio: {
-        ...context.portfolio,
-        cashBalance: context.portfolio.cashBalance - (step.action.amount ?? 0),
-      },
+      portfolio: portfolioEngine.applyPortfolioTransaction(context.portfolio, transaction),
     }
   }
 }

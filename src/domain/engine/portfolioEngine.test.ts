@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import type { Holding } from '../types'
+import type { Holding, Portfolio } from '../types'
 import {
+  applyPortfolioTransaction,
   getAllocationByAccountType,
   getAllocationByClassification,
   getTotalInvestedCapital,
@@ -67,6 +68,15 @@ const holdings: Holding[] = [
   },
 ]
 
+const portfolio: Portfolio = {
+  id: 'portfolio-1',
+  holdings: [],
+  cashBalance: 25_000,
+  watchlist: [],
+  journalEntries: [],
+  dividendProjection: [],
+}
+
 describe('portfolioEngine', () => {
   it('calculates total market value', () => {
     expect(getTotalMarketValue(holdings)).toBe(1_000_000)
@@ -90,5 +100,31 @@ describe('portfolioEngine', () => {
       { name: 'SuperCompounder', value: 300_000, weight: 0.3 },
       { name: 'YieldInstrument', value: 100_000, weight: 0.1 },
     ])
+  })
+
+  it('applies deposit transactions to cashBalance immutably', () => {
+    const result = applyPortfolioTransaction(portfolio, {
+      id: 'deposit-2026-06-30T12:00:00.000Z',
+      type: 'deposit',
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      amount: 10_000,
+    })
+
+    expect(result.cashBalance).toBe(35_000)
+    expect(result).not.toBe(portfolio)
+    expect(portfolio.cashBalance).toBe(25_000)
+  })
+
+  it('applies withdraw transactions to cashBalance immutably', () => {
+    const result = applyPortfolioTransaction(portfolio, {
+      id: 'withdraw-2026-06-30T12:00:00.000Z',
+      type: 'withdraw',
+      date: new Date('2026-06-30T12:00:00.000Z'),
+      amount: 10_000,
+    })
+
+    expect(result.cashBalance).toBe(15_000)
+    expect(result).not.toBe(portfolio)
+    expect(portfolio.cashBalance).toBe(25_000)
   })
 })

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import type {
   InvestmentPolicy,
   InvestmentSimulationAction,
@@ -13,6 +13,7 @@ import {
   WithdrawSimulationActionHandler,
   getInvestmentSimulationActionHandler,
 } from './InvestmentSimulationActionHandler'
+import * as portfolioEngine from '../engine/portfolioEngine'
 
 const portfolio: Portfolio = {
   id: 'portfolio-1',
@@ -103,6 +104,27 @@ describe('investment simulation action handlers', () => {
     expect(result.portfolio.cashBalance).toBe(10_000)
   })
 
+  it('applies deposit actions through a portfolio transaction', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'deposit',
+      amount: 10_000,
+    }
+    const context = createContext(action)
+    const step = createStep(action)
+    const applyPortfolioTransactionSpy = vi.spyOn(portfolioEngine, 'applyPortfolioTransaction')
+
+    new DepositSimulationActionHandler().handle(context, step)
+
+    expect(applyPortfolioTransactionSpy).toHaveBeenCalledWith(context.portfolio, {
+      id: 'deposit-2026-06-30T12:00:00.000Z',
+      type: 'deposit',
+      date: step.date,
+      amount: 10_000,
+    })
+
+    applyPortfolioTransactionSpy.mockRestore()
+  })
+
   it('does not mutate the original portfolio for deposit actions', () => {
     const action: InvestmentSimulationAction = {
       type: 'deposit',
@@ -143,6 +165,33 @@ describe('investment simulation action handlers', () => {
     const result = new WithdrawSimulationActionHandler().handle(context, createStep(action))
 
     expect(result.portfolio.cashBalance).toBe(15_000)
+  })
+
+  it('applies withdraw actions through a portfolio transaction', () => {
+    const action: InvestmentSimulationAction = {
+      type: 'withdraw',
+      amount: 10_000,
+    }
+    const context = {
+      ...createContext(action),
+      portfolio: {
+        ...portfolio,
+        cashBalance: 25_000,
+      },
+    }
+    const step = createStep(action)
+    const applyPortfolioTransactionSpy = vi.spyOn(portfolioEngine, 'applyPortfolioTransaction')
+
+    new WithdrawSimulationActionHandler().handle(context, step)
+
+    expect(applyPortfolioTransactionSpy).toHaveBeenCalledWith(context.portfolio, {
+      id: 'withdraw-2026-06-30T12:00:00.000Z',
+      type: 'withdraw',
+      date: step.date,
+      amount: 10_000,
+    })
+
+    applyPortfolioTransactionSpy.mockRestore()
   })
 
   it('does not mutate the original portfolio for withdraw actions', () => {
