@@ -2,8 +2,8 @@ import type {
   InvestmentSimulationAction,
   InvestmentSimulationContext,
   InvestmentSimulationStep,
-  PortfolioTransaction,
 } from '../types'
+import { createPortfolioTransactionFromSimulationStep } from '../builders/PortfolioTransactionFactory'
 import * as portfolioEngine from '../engine/portfolioEngine'
 
 export interface InvestmentSimulationActionHandler {
@@ -44,12 +44,7 @@ export class DepositSimulationActionHandler implements InvestmentSimulationActio
       return context
     }
 
-    const transaction: PortfolioTransaction = {
-      id: `${step.action.type}-${step.date.toISOString()}`,
-      type: 'deposit',
-      date: step.date,
-      amount: step.action.amount ?? 0,
-    }
+    const transaction = createPortfolioTransactionFromSimulationStep(step)
 
     return {
       ...context,
@@ -67,12 +62,7 @@ export class WithdrawSimulationActionHandler implements InvestmentSimulationActi
       return context
     }
 
-    const transaction: PortfolioTransaction = {
-      id: `${step.action.type}-${step.date.toISOString()}`,
-      type: 'withdraw',
-      date: step.date,
-      amount: step.action.amount ?? 0,
-    }
+    const transaction = createPortfolioTransactionFromSimulationStep(step)
 
     return {
       ...context,

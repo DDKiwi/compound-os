@@ -120,6 +120,7 @@ describe('investment simulation action handlers', () => {
       type: 'deposit',
       date: step.date,
       amount: 10_000,
+      origin: 'simulation',
     })
 
     applyPortfolioTransactionSpy.mockRestore()
@@ -189,6 +190,7 @@ describe('investment simulation action handlers', () => {
       type: 'withdraw',
       date: step.date,
       amount: 10_000,
+      origin: 'simulation',
     })
 
     applyPortfolioTransactionSpy.mockRestore()

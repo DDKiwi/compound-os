@@ -1,3 +1,5 @@
+import type { Currency } from './Holding'
+
 export type PortfolioTransactionType =
   | 'deposit'
   | 'withdraw'
@@ -12,9 +14,10 @@ export type PortfolioTransaction = {
   readonly type: PortfolioTransactionType
   readonly date: Date
   readonly amount: number
-  readonly holdingId?: string
+  readonly ticker?: string
   readonly quantity?: number
   readonly price?: number
-  readonly currency?: string
+  readonly currency?: Currency
   readonly note?: string
+  readonly origin?: 'manual' | 'simulation' | 'import'
 }

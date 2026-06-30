@@ -68,6 +68,10 @@ When callers need metadata around a single run, `InvestmentAnalysisEngine.create
 
 `PortfolioTransaction` is the domain concept for portfolio cash and holding events such as deposits, withdrawals, buys, sells, dividends, fees and taxes.
 
+`PortfolioTransaction.amount` always represents the monetary value of the transaction in `transaction.currency`.
+
+`PortfolioTransactionFactory` creates transactions from simulation steps and centralizes simulation transaction ids, dates, amounts, currency and origin metadata.
+
 Deposit and withdraw simulation actions are translated into `PortfolioTransaction` objects and applied to `Portfolio` through `PortfolioEngine`. `PortfolioEngine` is the central domain component for portfolio changes and will progressively implement every `PortfolioTransactionType`; buy, sell, dividend, fee and tax are explicit no-ops until their domain behavior is added.
 
 ### PortfolioSnapshot
