@@ -9,6 +9,7 @@ export { buildInvestmentAnalysisSession } from './InvestmentAnalysisSessionBuild
 export type { InvestmentAnalysisSessionBuilderInput } from './InvestmentAnalysisSessionBuilder'
 export { buildInvestmentAnalysisSummary } from './InvestmentAnalysisSummaryBuilder'
 export { buildInvestmentSimulationTimeline } from './InvestmentSimulationTimelineBuilder'
+export { buildSimulationProjection } from './SimulationProjectionBuilder'
 export { createPortfolioTransactionFromSimulationStep } from './PortfolioTransactionFactory'
 export { buildPortfolioAllocation } from './portfolioAllocationBuilder'
 export type { PortfolioAllocationInput } from './portfolioAllocationBuilder'
