@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import type { Holding, Portfolio } from '../types'
+import type { Holding, Portfolio, PortfolioTransactionType } from '../types'
 import {
   applyPortfolioTransaction,
   getAllocationByAccountType,
@@ -127,4 +127,19 @@ describe('portfolioEngine', () => {
     expect(result).not.toBe(portfolio)
     expect(portfolio.cashBalance).toBe(25_000)
   })
+
+  it.each(['buy', 'sell', 'dividend', 'fee', 'tax'] satisfies PortfolioTransactionType[])(
+    'returns portfolio unchanged for unimplemented %s transactions',
+    (type) => {
+      const result = applyPortfolioTransaction(portfolio, {
+        id: `${type}-2026-06-30T12:00:00.000Z`,
+        type,
+        date: new Date('2026-06-30T12:00:00.000Z'),
+        amount: 10_000,
+      })
+
+      expect(result).toBe(portfolio)
+      expect(portfolio.cashBalance).toBe(25_000)
+    },
+  )
 })

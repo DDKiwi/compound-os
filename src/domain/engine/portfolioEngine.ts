@@ -129,21 +129,28 @@ export function applyPortfolioTransaction(
   portfolio: Portfolio,
   transaction: PortfolioTransaction,
 ): Portfolio {
-  if (transaction.type === 'deposit') {
-    return {
-      ...portfolio,
-      cashBalance: portfolio.cashBalance + transaction.amount,
+  switch (transaction.type) {
+    case 'deposit':
+      return {
+        ...portfolio,
+        cashBalance: portfolio.cashBalance + transaction.amount,
+      }
+    case 'withdraw':
+      return {
+        ...portfolio,
+        cashBalance: portfolio.cashBalance - transaction.amount,
+      }
+    case 'buy':
+    case 'sell':
+    case 'dividend':
+    case 'fee':
+    case 'tax':
+      return portfolio
+    default: {
+      const exhaustiveCheck: never = transaction.type
+      return exhaustiveCheck
     }
   }
-
-  if (transaction.type === 'withdraw') {
-    return {
-      ...portfolio,
-      cashBalance: portfolio.cashBalance - transaction.amount,
-    }
-  }
-
-  return portfolio
 }
 
 export function getExpectedAnnualDividend(holding: Holding) {
