@@ -96,7 +96,7 @@ function createSession(): InvestmentAnalysisSession {
           id: 'cash-reserve',
           title: 'Cash reserve',
           description: 'Cash reserve is within range.',
-          category: 'cash',
+          category: 'policy',
           importance: 'low',
         },
       ],
