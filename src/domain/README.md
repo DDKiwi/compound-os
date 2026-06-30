@@ -155,6 +155,12 @@ It reuses existing builders and accepts existing insights and recommendations wh
 
 `InvestmentSimulationInput` describes a future what-if simulation request by combining a portfolio, policy and intended action such as buy, sell, deposit or withdraw.
 
+### InvestmentScenario
+
+`InvestmentScenario` describes a future investment plan: what the user wants to simulate, which actions belong to the plan and which assumptions should frame it.
+
+It does not contain a completed simulation or result. `InvestmentSimulationEngine` is responsible for running simulations, while future scenario engines or comparison models can build on top of `InvestmentScenario`.
+
 ### InvestmentSimulationResult
 
 Future simulation engines will return an `InvestmentSimulationResult` containing a raw numeric summary, forward-looking projections and the simulated portfolio.
