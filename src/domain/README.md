@@ -58,6 +58,12 @@ When callers need metadata around a single run, `InvestmentAnalysisEngine.create
 
 `cashBalance` represents investable cash capital, separate from holdings.
 
+### PortfolioTransaction
+
+`PortfolioTransaction` is the domain concept for portfolio cash and holding events such as deposits, withdrawals, buys, sells, dividends, fees and taxes.
+
+Future simulation actions can be translated into transactions. Transactions are not applied to `Portfolio` in this step.
+
 ### PortfolioSnapshot
 
 `PortfolioSnapshot` represents the high-level state of a portfolio at a point in time.
